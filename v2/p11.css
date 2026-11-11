@@ -1,0 +1,46 @@
+}
+.prog-current{display:flex;align-items:center;gap:12px;font-size:15.5px}
+.spinner{
+  width:22px;height:22px;flex:none;border-radius:50%;
+  border:3px solid var(--red-soft);border-top-color:var(--red);
+  animation:spin 0.9s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.prog-list{list-style:none;margin:18px 0}
+.prog-list li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);padding:5px 0;animation:sp-rise .4s ease-out both}
+.prog-list li svg{width:17px;height:17px;flex:none}
+.prog-bar{height:8px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden;margin:8px 0 14px}
+.prog-bar span{display:block;height:100%;width:6%;background:var(--red);border-radius:999px;transition:width 1.2s ease}
+
+/* ---------- ticket result ---------- */
+.ticket{
+  background:var(--surface);border:1px solid var(--line);border-radius:28px;
+  box-shadow:var(--shadow-panel),0 22px 48px -24px rgb(0 0 0/.16);overflow:hidden;margin-bottom:16px;
+}
+.ticket-top{
+  background:var(--ink);color:#fff;padding:22px 20px;
+  background-image:radial-gradient(120% 90% at 90% -10%,rgba(255,255,255,.12),transparent 55%);
+}
+.code-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+.code-big{font-size:30px;font-weight:800;letter-spacing:.06em}
+.ticket-meta{margin-top:10px;font-size:13.5px;color:rgba(255,255,255,.75)}
+.ticket-meta b{color:#fff}
+.ticket-tear{height:0;border-top:2px dashed var(--line);position:relative}
+.ticket-tear::before,.ticket-tear::after{
+  content:"";position:absolute;top:-11px;width:22px;height:22px;border-radius:50%;
+  background:var(--paper);border:1px solid var(--line);
+}
+.ticket-tear::before{left:-12px}
+.ticket-tear::after{right:-12px}
+.ticket .demo-banner{margin:16px 16px 0}
+.legs{list-style:none;padding:8px 16px 16px}
+.leg{display:flex;align-items:flex-start;gap:12px;padding:14px 2px;border-bottom:1px solid var(--line-soft)}
+.leg:last-child{border-bottom:0}
+.leg .lg-badge{margin-top:2px}
+.leg-mid .market{display:block;font-size:13px;font-weight:700;color:var(--ink-soft);margin-top:1px}
+.leg-mid .comment{display:block;font-size:12.5px;color:var(--muted);margin-top:4px}
+.leg .prob{margin-top:4px}
+.convert-row{display:flex;align-items:center;justify-content:center;gap:8px;margin:16px 0;font-size:13.5px;color:var(--muted)}
+.chip{
+  border:1px solid var(--line);background:var(--surface);border-radius:999px;
+  padding:7px 16px;font-size:13px;font-weight:700;box-shadow:var(--shadow-panel);
