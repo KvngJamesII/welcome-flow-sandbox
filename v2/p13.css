@@ -2,8 +2,6 @@
 .app-shell.flow-mode{padding-bottom:28px}
 .app-shell.flow-mode .app-head{display:none}
 .app-shell.flow-mode .bottom-nav{display:none}
-.app-shell.flow-mode.show-nav{padding-bottom:110px}
-.app-shell.flow-mode.show-nav .bottom-nav{display:flex}
 .app-view[data-view=book].active,.app-view[data-view=progress].active,.app-view[data-view=result].active{display:flex;flex-direction:column}
 .flow{display:flex;flex-direction:column;flex:1;min-height:calc(100dvh - 44px);padding-top:12px}
 .flow-top{display:flex;align-items:center;gap:16px}
