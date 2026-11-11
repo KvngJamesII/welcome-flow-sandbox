@@ -1,0 +1,41 @@
+.btn-copy .g{width:15px;height:15px}
+.btn-white{
+  background:#fff;color:var(--red);
+  border:1px solid rgb(255 255 255/.8);
+  box-shadow:0 3px 6px rgb(0 0 0/.16),inset 0 1px 0 #fff,inset 0 -2px 4px rgb(0 0 0/.04);
+}
+.btn-white:active{transform:translateY(1px);box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 3px rgb(0 0 0/.1)}
+
+/* ---------- brand / nav ---------- */
+.brand{display:inline-flex;align-items:center;gap:10px}
+.brand-mark{width:36px;height:36px;border-radius:10px;box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 0 rgb(255 255 255/.12)}
+.brand-word{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.brand-word b{color:var(--red);font-weight:800}
+.nav{position:sticky;top:0;z-index:40;background:color-mix(in oklch,var(--paper) 85%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+.nav-in{max-width:1120px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:26px}
+.nav-links{display:none;gap:24px;margin-left:8px;flex:1}
+.nav-links a{font-size:14.5px;font-weight:600;color:var(--ink-soft)}
+.nav-links a:hover{color:var(--red)}
+.nav-cta{margin-left:auto;display:flex;align-items:center;gap:8px}
+.nav-cta .btn-primary{min-height:42px;padding:9px 18px;font-size:14px}
+@media(min-width:860px){.nav-links{display:flex}}
+
+/* ---------- hero ---------- */
+main[data-view="home"]{max-width:1120px;margin:0 auto;padding:0 20px}
+.hero{display:grid;gap:44px;padding:56px 0 30px;align-items:center}
+@media(min-width:960px){.hero{grid-template-columns:1.05fr .95fr;padding:84px 0 40px}}
+.hero h1{font-size:clamp(38px,8.5vw,58px);font-weight:800}
+.hl{color:var(--red);font-family:var(--serif);font-style:italic;letter-spacing:0}
+.lede{margin-top:18px;font-size:17px;color:var(--muted);max-width:46ch}
+.hero-actions{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px}
+.hero-note{margin-top:14px;font-size:13px;color:var(--muted)}
+
+/* hero visual */
+.hero-visual{position:relative;min-height:340px}
+.slip-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:28px;
+  box-shadow:var(--shadow-panel),0 22px 48px -24px rgb(0 0 0/.18);
+  padding:18px;max-width:360px;margin:0 auto;position:relative;z-index:2;
+}
+.slip-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.slip-title{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px}
