@@ -1,52 +1,40 @@
-}
-.bottom-nav .on{color:var(--red);background:var(--red-soft)}
-.bottom-nav svg{width:22px;height:22px}
+.odds.is-locked{opacity:.55;cursor:not-allowed}
+#btn-book .ic14{width:16px;height:16px;vertical-align:-3px}
 
-/* ---------- account drawer ---------- */
-.drawer-veil{position:fixed;inset:0;z-index:50;background:rgba(20,16,10,.4);backdrop-filter:blur(2px)}
-.drawer{
-  position:fixed;top:0;right:0;bottom:0;z-index:51;width:min(320px,85vw);
-  background:var(--paper);border-left:1px solid var(--line);
-  padding:20px;display:flex;flex-direction:column;gap:6px;
-  box-shadow:-20px 0 48px -24px rgb(0 0 0/.25);
-  animation:drawer-in .25s ease-out both;
+/* ---------- progress ---------- */
+.prog-panel{
+  background:var(--surface);border:1px solid var(--line);border-radius:28px;
+  box-shadow:var(--shadow-panel);padding:22px;
 }
-@keyframes drawer-in{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
-.drawer-head{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:10px}
-.drawer-head>div{flex:1;display:flex;flex-direction:column}
-.drawer-head b{font-size:16px;letter-spacing:-.01em}
-.icon-btn{
-  width:38px;height:38px;border-radius:999px;background:var(--surface);border:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;color:var(--muted);box-shadow:var(--shadow-panel);
+.prog-current{display:flex;align-items:center;gap:12px;font-size:15.5px}
+.spinner{
+  width:22px;height:22px;flex:none;border-radius:50%;
+  border:3px solid var(--red-soft);border-top-color:var(--red);
+  animation:spin 0.9s linear infinite;
 }
-.icon-btn .g{width:17px;height:17px}
-.drawer-row{
-  display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:18px;
-  font-size:15px;font-weight:700;color:var(--ink-soft);
-}
-.drawer-row:hover{background:var(--surface)}
-.drawer-row .ic18{width:20px;height:20px}
-.drawer-val{margin-left:auto;color:var(--red)}
-.chev-r{margin-left:auto}
-.chev-r .chev{transform:rotate(-90deg)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.prog-list{list-style:none;margin:18px 0}
+.prog-list li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);padding:5px 0;animation:sp-rise .4s ease-out both}
+.prog-list li svg{width:17px;height:17px;flex:none}
+.prog-bar{height:8px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden;margin:8px 0 14px}
+.prog-bar span{display:block;height:100%;width:6%;background:var(--red);border-radius:999px;transition:width 1.2s ease}
 
-/* ---------- recolor the small nav/drawer glyphs (no monochrome line icons) ---------- */
-#n-ticket path{stroke:#C98A12}
-#n-coin circle{stroke:#C98A12}
-#n-coin path{fill:#E8A020;stroke:none}
-#g-swap path{stroke:#2F6BDE}
-#g-back path{stroke:#D93636}
-
-/* ---------- footer ---------- */
-.site-foot{border-top:1px solid var(--line);margin-top:20px}
-.foot-in{max-width:1120px;margin:0 auto;padding:32px 20px;display:grid;gap:12px}
-.foot-in .fine{max-width:56ch}
-
-@media(max-width:520px){
-  .hero-visual{min-height:300px}
-  .mini-card{position:relative;margin-top:14px;left:auto;bottom:auto;display:inline-flex}
-  .prod-grid{grid-template-columns:1fr 1fr}
-  .odds-grid{grid-template-columns:repeat(2,1fr)}
-  .conv-dir{grid-template-columns:1fr}
-  .swap-ic{margin:0 auto;transform:rotate(90deg)}
+/* ---------- ticket result ---------- */
+.ticket{
+  background:var(--surface);border:1px solid var(--line);border-radius:28px;
+  box-shadow:var(--shadow-panel),0 22px 48px -24px rgb(0 0 0/.16);overflow:hidden;margin-bottom:16px;
 }
+.ticket-top{
+  background:var(--ink);color:#fff;padding:22px 20px;
+  background-image:radial-gradient(120% 90% at 90% -10%,rgba(255,255,255,.12),transparent 55%);
+}
+.code-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+.code-big{font-size:30px;font-weight:800;letter-spacing:.06em}
+.ticket-meta{margin-top:10px;font-size:13.5px;color:rgba(255,255,255,.75)}
+.ticket-meta b{color:#fff}
+.ticket-tear{height:0;border-top:2px dashed var(--line);position:relative}
+.ticket-tear::before,.ticket-tear::after{
+  content:"";position:absolute;top:-11px;width:22px;height:22px;border-radius:50%;
+  background:var(--paper);border:1px solid var(--line);
+}
+.ticket-tear::before{left:-12px}
