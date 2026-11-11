@@ -1,0 +1,43 @@
+}
+.gift-row p{font-size:14.5px;color:var(--ink-soft)}
+.gift-row b{color:var(--ink)}
+.or{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:13px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.field{display:block;margin-bottom:16px}
+.field>span{display:flex;align-items:baseline;justify-content:space-between;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.field>span i{font-style:normal;text-transform:none;letter-spacing:0;font-weight:600;font-size:11px}
+.field input,.field select{
+  width:100%;margin-top:8px;border-radius:999px;border:1px solid var(--line);
+  background:var(--surface);padding:13px 20px;font:inherit;font-size:15px;color:var(--ink);outline:none;
+  box-shadow:var(--shadow-panel);
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+.field input::placeholder{color:color-mix(in oklch,var(--muted) 70%,transparent)}
+.field input:focus,.field select:focus{
+  border-color:var(--red);
+  box-shadow:0 0 0 3px color-mix(in oklch,var(--red) 12%,transparent),var(--shadow-panel);
+}
+.pw{position:relative}
+.pw input{padding-right:52px}
+.pw-eye{
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  width:38px;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:var(--muted);
+}
+.pw-eye:hover{background:var(--surface-2)}
+.pw-eye .g{width:20px;height:20px}
+.fine{font-size:12.5px;color:var(--muted)}
+.fine a{color:var(--red);font-weight:600}
+.fine.center{text-align:center;margin-top:10px}
+.auth-card form .btn{margin-top:6px}
+.auth-card .fine{margin-top:16px;text-align:center}
+.auth-swap{margin-top:24px;text-align:center;font-size:14px;color:var(--muted)}
+.auth-swap a{color:var(--red);font-weight:700}
+
+/* ---------- welcome splash: the full-red screen he loved (old markup, pure CSS) ---------- */
+.auth[data-view=welcome]{max-width:none;padding:0;background:var(--red);color:#fff;overflow:hidden;position:relative}
+.auth[data-view=welcome].active{display:flex}
+.auth[data-view=welcome]::before{content:"";position:absolute;top:-5rem;left:-5rem;width:18rem;height:18rem;border-radius:3rem;transform:rotate(12deg);background:rgba(255,255,255,.1)}
+.auth[data-view=welcome]::after{content:"";position:absolute;bottom:-6rem;right:-4rem;width:20rem;height:20rem;border-radius:3.5rem;transform:rotate(-12deg);background:rgba(0,0,0,.1)}
+.welcome-card{
+  position:relative;z-index:1;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;width:100%;max-width:400px;margin:0 auto;padding:32px 24px 40px;
