@@ -336,3 +336,65 @@
 .sp-badge { animation: sp-badge 1s ease-out both; }
 @keyframes sp-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) { .sp-pop, .sp-rise, .sp-badge { animation: none; } }
+
+/* Reception-inspired control refinement. The approved layout, background,
+   brand palette, typography, content and flow remain unchanged. */
+button.bg-primary,
+button.bg-white,
+button.bg-surface,
+input.rounded-xl {
+  border-radius: 999px;
+}
+
+/* A fine outer rim and a lit inner edge replace the hard offset ledge. */
+button.bg-primary {
+  border: 1px solid color-mix(in oklch, var(--primary), black 10%);
+  box-shadow: 0 3px 6px rgb(0 0 0 / .16),
+    inset 0 1px 0 rgb(255 255 255 / .4),
+    inset 0 0 6px 2px rgb(255 255 255 / .2);
+}
+button.bg-white {
+  border: 1px solid rgb(255 255 255 / .8);
+  box-shadow: 0 3px 6px rgb(0 0 0 / .16),
+    inset 0 1px 0 white, inset 0 -2px 4px rgb(0 0 0 / .04);
+}
+button.bg-primary:active,
+button.bg-white:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgb(0 0 0 / .12), inset 0 1px 3px rgb(0 0 0 / .1);
+}
+button.bg-surface,
+input.rounded-xl {
+  border-width: 1px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .035),
+    0 8px 24px -16px rgb(0 0 0 / .16), inset 0 1px 0 rgb(255 255 255 / .65);
+}
+input.rounded-xl { padding-left: 20px; }
+input.rounded-xl:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--primary), transparent 88%);
+}
+button:focus-visible {
+  outline: 3px solid color-mix(in oklch, var(--primary), transparent 60%);
+  outline-offset: 4px;
+}
+
+/* Softer panel edges, still roomy enough for the existing two-line labels. */
+[role="radio"] {
+  border-radius: 28px;
+  border-width: 1px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .03), inset 0 1px 0 rgb(255 255 255 / .65);
+}
+[role="radio"][aria-checked="true"] {
+  box-shadow: 0 0 0 1px var(--primary), inset 0 1px 0 rgb(255 255 255 / .65);
+}
+[role="radio"] > span:first-child,
+[role="radio"] > span:last-child,
+button[aria-label="Back"] {
+  border-radius: 999px;
+}
+div.rounded-2xl.bg-primary,
+div.rounded-2xl.bg-white,
+div.rounded-2xl.border-primary {
+  border-radius: 28px;
+}
