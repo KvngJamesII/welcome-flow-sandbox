@@ -335,6 +335,7 @@
     <button class="btn btn-google btn-block" id="btn-google">
       <svg class="g"><use href="#g-google"/></svg> Sign up with Google
     </button>
+    <div class="or"><span>or with email</span></div>
     <form id="signup-form" novalidate>
       <label class="field"><span>Username</span>
         <input type="text" placeholder="yourname" autocomplete="username">
@@ -438,11 +439,11 @@
         <div class="flist" role="radiogroup" aria-label="When are you playing?">
           <button class="choice" data-pick="window" data-value="today" type="button" role="radio" aria-checked="true">
             <span class="ic-tile"><svg class="ic"><use href="#i-calendar"/></svg></span>
-            <span class="choice-txt"><b>Today's games</b><span>Kicking off in the next 24 hours</span></span>
+            <span class="choice-txt"><b>Today's games</b><span>Kicking off in the next 24 hours</span><em class="cost"><svg class="ic14"><use href="#i-coin"/></svg>150</em></span>
           </button>
           <button class="choice" data-pick="window" data-value="longshot" type="button" role="radio" aria-checked="false">
             <span class="ic-tile"><svg class="ic"><use href="#i-target"/></svg></span>
-            <span class="choice-txt"><b>Longshot</b><span>Anything in the next 7 days</span></span>
+            <span class="choice-txt"><b>Longshot</b><span>Anything in the next 4 days</span><em class="cost"><svg class="ic14"><use href="#i-coin"/></svg>300</em></span>
           </button>
         </div>
         <div class="flow-foot">
@@ -486,14 +487,22 @@
             <span class="ic-tile"><svg class="ic"><use href="#i-chart"/></svg></span>
             <span class="choice-txt"><b>10 - 30</b><span>Bigger swing</span></span>
           </button>
-          <button class="choice" data-pick="band" data-value="30+" type="button" role="radio" aria-checked="false">
+          <button class="choice" data-pick="band" data-value="30-60" type="button" role="radio" aria-checked="false">
+            <span class="ic-tile"><svg class="ic"><use href="#i-chart"/></svg></span>
+            <span class="choice-txt"><b>30 - 60</b><span>Long shot</span></span>
+          </button>
+          <button class="choice is-locked" type="button" role="radio" aria-checked="false" aria-disabled="true" disabled>
+            <span class="ic-tile"><svg class="ic"><use href="#i-chart"/></svg></span>
+            <span class="choice-txt"><b>60 - 100</b><span>Upgrade</span></span>
+          </button>
+          <button class="choice is-locked" type="button" role="radio" aria-checked="false" aria-disabled="true" disabled>
             <span class="ic-tile"><svg class="ic"><use href="#i-trophy"/></svg></span>
-            <span class="choice-txt"><b>30 and above</b><span>Long shot</span></span>
+            <span class="choice-txt"><b>100+</b><span>Upgrade</span></span>
           </button>
         </div>
         <div class="flow-foot">
           <button class="btn btn-primary btn-block btn-lg" id="btn-book" type="button">Build my code</button>
-          <p class="flow-note">Uses your welcome credits.</p>
+          <p class="flow-note" id="build-note">Uses 150 credits, charged only when your code exists.</p>
         </div>
       </section>
     </div>
