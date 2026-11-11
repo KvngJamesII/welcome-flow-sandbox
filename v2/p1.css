@@ -1,0 +1,52 @@
+/* ============ SportyPunter v2 — extended from the loved onboarding design ============
+   Design identity: warm paper background, soft red blobs + faint red grid,
+   Plus Jakarta Sans, pill controls with a lit inner edge (reception refinement),
+   SportyPunter red as the accent. Same language as welcome-flow-demo-b. */
+:root{
+  --paper:oklch(0.935 0.007 75);
+  --surface:oklch(0.965 0.005 75);
+  --surface-2:oklch(0.91 0.007 75);
+  --ink:oklch(0.18 0.02 250);
+  --ink-soft:oklch(0.32 0.02 250);
+  --muted:oklch(0.5 0.015 250);
+  --line:oklch(0.88 0.007 75);
+  --line-soft:oklch(0.915 0.006 75);
+  --red:oklch(0.54 0.22 20);
+  --red-deep:oklch(0.46 0.2 20);
+  --red-soft:color-mix(in oklch, var(--red) 9%, var(--paper));
+  --green:oklch(0.62 0.16 150);
+  --green-deep:oklch(0.5 0.14 150);
+  --green-soft:color-mix(in oklch, var(--green) 12%, var(--paper));
+  --gold:#E8A020;
+  --gold-soft:#FCF0DC;
+  --blue:#2F6BDE;
+  --blue-soft:#E7EEFC;
+  --serif:ui-serif,Georgia,"Times New Roman","Noto Serif",serif;
+  --shadow-panel:0 1px 2px rgb(0 0 0/.035),0 8px 24px -16px rgb(0 0 0/.16),inset 0 1px 0 rgb(255 255 255/.65);
+  --font:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  line-height:1.5;
+}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3{letter-spacing:-.015em;line-height:1.12;font-weight:800}
+
+/* ---------- background decor: the loved soft-red paper ---------- */
+.bg-decor{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(72px)}
+.blob-a{width:24rem;height:24rem;background:color-mix(in oklch,var(--red) 25%,transparent);top:-10rem;left:-6rem}
+.blob-b{width:24rem;height:24rem;background:color-mix(in oklch,var(--red) 15%,transparent);top:25%;right:-7rem}
+.grid-lines{position:absolute;inset:0;color:var(--red);opacity:.05;
+  background-image:linear-gradient(to right,currentColor 1px,transparent 1px),linear-gradient(to bottom,currentColor 1px,transparent 1px);
+  background-size:32px 32px}
+.bg-decor::before{content:"";position:absolute;top:-6rem;right:-6rem;width:18rem;height:18rem;
+  border-radius:3rem;transform:rotate(12deg);background:color-mix(in oklch,var(--red) 10%,transparent)}
