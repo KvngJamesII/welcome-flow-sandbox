@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SportyPunter | SportyBet booking codes built on stats</title>
+<meta name="description" content="Pick your risk level and odds. SportyPunter analyzes the matches and hands you a ready SportyBet booking code.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%2315212E'/%3E%3Cpath d='M8 52C20 50 38 44 52 24' stroke='%23F2B33D' stroke-width='4' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='32' cy='34' r='15' fill='%23fff'/%3E%3Cpath d='M32 26l6.4 4.6-2.4 7.5h-8l-2.4-7.5z' fill='%2315212E'/%3E%3Cpath d='M32 19.5V26M44.5 26.6l-5.8 3.6M41.2 45l-5.2-6.9M22.8 45l5.2-6.9M19.5 26.6l5.8 3.6' stroke='%2315212E' stroke-width='2.5' fill='none'/%3E%3Cpath d='M52 14l1.8 4.2 4.2 1.8-4.2 1.8L52 26l-1.8-4.2-4.2-1.8 4.2-1.8z' fill='%23D93636'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg-decor" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="grid-lines"></div>
+</div>
+
+<!-- ============ SVG ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- logo -->
+    <symbol id="i-logo" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="15" fill="#15212E"/>
+      <path d="M8 52C20 50 38 44 52 24" stroke="#F2B33D" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <circle cx="32" cy="34" r="15" fill="#fff"/>
+      <path d="M32 26l6.4 4.6-2.4 7.5h-8l-2.4-7.5z" fill="#15212E"/>
+      <path d="M32 19.5V26M44.5 26.6l-5.8 3.6M41.2 45l-5.2-6.9M22.8 45l5.2-6.9M19.5 26.6l5.8 3.6" stroke="#15212E" stroke-width="2.5" fill="none"/>
+      <path d="M52 14l1.8 4.2 4.2 1.8-4.2 1.8L52 26l-1.8-4.2-4.2-1.8 4.2-1.8z" fill="#D93636"/>
+    </symbol>
+    <!-- duotone tiles -->
+    <symbol id="i-shield" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#E3F3EA"/>
+      <path d="M24 9l11 4.2v8.6c0 7-4.6 11.7-11 14.2-6.4-2.5-11-7.2-11-14.2v-8.6z" fill="#178A4C"/>
+      <path d="M19.6 23.4l3.2 3.2 6-6.2" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </symbol>
+    <symbol id="i-bolt" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#FCF0DC"/>
+      <path d="M26.5 8L15 27h8l-2 13 12-19h-8.5z" fill="#E8A020"/>
+      <path d="M26.5 8L15 27h8l1.2-7.5L26.5 8z" fill="#C77F0D" opacity=".55"/>
+    </symbol>
+    <symbol id="i-target" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#FBE9E7"/>
+      <circle cx="24" cy="24" r="13" fill="#D93636"/>
+      <circle cx="24" cy="24" r="8.2" fill="#fff"/>
+      <circle cx="24" cy="24" r="3.6" fill="#D93636"/>
+    </symbol>
+    <symbol id="i-pencil" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#E7EEFC"/>
+      <path d="M30.5 11.5l6 6L18 36l-6.8 1.4L12.6 30z" fill="#2F6BDE"/>
+      <path d="M30.5 11.5l6 6-3 3-6-6z" fill="#1E4FA8"/>
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#E7EEFC"/>
+      <rect x="11" y="13" width="26" height="24" rx="5" fill="#2F6BDE"/>
+      <rect x="11" y="13" width="26" height="8" rx="4" fill="#1E4FA8"/>
+      <rect x="17" y="9" width="3.4" height="7" rx="1.7" fill="#15212E"/>
+      <rect x="27.6" y="9" width="3.4" height="7" rx="1.7" fill="#15212E"/>
+      <rect x="16" y="25" width="5" height="5" rx="1.6" fill="#fff"/>
+      <rect x="23.5" y="25" width="5" height="5" rx="1.6" fill="#BBD0F7"/>
+    </symbol>
+    <symbol id="i-ticket" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#FCF0DC"/>
+      <path d="M10 17a3 3 0 0 1 3-3h22a3 3 0 0 1 3 3v4.4a3.6 3.6 0 0 0 0 5.2V31a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3v-4.4a3.6 3.6 0 0 0 0-5.2z" fill="#E8A020"/>
+      <path d="M27 14v20" stroke="#fff" stroke-width="2.4" stroke-dasharray="3.4 3.4"/>
+    </symbol>
+    <symbol id="i-coin" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#FCF0DC"/>
+      <circle cx="24" cy="24" r="13" fill="#F2B33D"/>
+      <circle cx="24" cy="24" r="9.4" fill="#E8A020"/>
+      <path d="M24 19.4l1.5 3 3.3.5-2.4 2.3.6 3.3-3-1.6-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="#fff"/>
+    </symbol>
+    <symbol id="i-trophy" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#FCF0DC"/>
+      <path d="M17 11h14v7.5a7 7 0 0 1-14 0z" fill="#E8A020"/>
+      <path d="M17 13h-4.5a4.5 4.5 0 0 0 4.7 7M31 13h4.5a4.5 4.5 0 0 1-4.7 7" stroke="#C77F0D" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <path d="M22.5 25h3v5h5v3.5h-13V30h5z" fill="#C77F0D"/>
+    </symbol>
+    <symbol id="i-chart" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#E3F3EA"/>
+      <rect x="12" y="24" width="5.4" height="12" rx="2" fill="#178A4C"/>
+      <rect x="21.3" y="17" width="5.4" height="19" rx="2" fill="#4CB782"/>
+      <rect x="30.6" y="11" width="5.4" height="25" rx="2" fill="#178A4C"/>
+    </symbol>
+    <symbol id="i-ball" viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="13" fill="#E8ECF1"/>
+      <circle cx="24" cy="24" r="13" fill="#fff"/>
+      <path d="M24 18.6l5.1 3.7-1.9 6h-6.4l-1.9-6z" fill="#15212E"/>
+      <path d="M24 11.5v7.1M34.5 17.4l-5 3M32 32.8l-3.5-4.8M16 32.8l3.5-4.8M13.5 17.4l5 3" stroke="#15212E" stroke-width="2" fill="none"/>
+    </symbol>
+    <symbol id="i-gift" viewBox="0 0 96 96">
+      <rect x="14" y="40" width="68" height="42" rx="7" fill="#D93636"/>
+      <rect x="14" y="40" width="68" height="12" rx="6" fill="#B52626"/>
+      <rect x="10" y="30" width="76" height="16" rx="6" fill="#E84848"/>
+      <rect x="42" y="30" width="12" height="52" fill="#F2B33D"/>
+      <path d="M48 30c-9 0-15-4.2-15-10 0-4.6 3.4-7.5 7.4-7.5 5.4 0 7.6 5.6 7.6 12V30z" fill="#F2B33D"/>
+      <path d="M48 30c9 0 15-4.2 15-10 0-4.6-3.4-7.5-7.4-7.5-5.4 0-7.6 5.6-7.6 12V30z" fill="#F7C65C"/>
+      <circle cx="48" cy="30" r="4.6" fill="#E8A020"/>
+      <circle cx="20" cy="18" r="2.4" fill="#F2B33D"/>
+      <circle cx="78" cy="14" r="2.8" fill="#D93636"/>
+      <path d="M70 22l1.6 3.6 3.6 1.6-3.6 1.6L70 32.4l-1.6-3.6-3.6-1.6 3.6-1.6z" fill="#E8A020"/>
+    </symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24">
+      <path d="M12 2l2.2 6.4L21 10.6l-6.8 2.2L12 19.2 9.8 12.8 3 10.6l6.8-2.2z" fill="#F2B33D"/>
+    </symbol>
+    <!-- small ui glyphs -->
+    <symbol id="g-google" viewBox="0 0 24 24">
+      <path d="M21.6 12.2c0-.7-.06-1.4-.18-2H12v3.9h5.4a4.6 4.6 0 0 1-2 3v2.6h3.2c1.9-1.7 3-4.3 3-7.5z" fill="#4285F4"/>
+      <path d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z" fill="#34A853"/>
+      <path d="M6.4 14a6 6 0 0 1 0-3.9V7.5H3.1a10 10 0 0 0 0 9z" fill="#FBBC05"/>
+      <path d="M12 5.9c1.5 0 2.8.5 3.8 1.5L18.7 4.6A10 10 0 0 0 3.1 7.5L6.4 10c.8-2.3 3-4.1 5.6-4.1z" fill="#EA4335"/>
+    </symbol>
+    <symbol id="g-copy" viewBox="0 0 24 24">
+      <rect x="9" y="9" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M5 15H4.5A2.5 2.5 0 0 1 2 12.5v-8A2.5 2.5 0 0 1 4.5 2h8A2.5 2.5 0 0 1 15 4.5V5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="g-check" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" fill="#178A4C"/>
+      <path d="M8 12.4l2.6 2.6L16 9.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </symbol>
+    <symbol id="g-chev" viewBox="0 0 24 24">
+      <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </symbol>
+    <symbol id="g-back" viewBox="0 0 24 24">
+      <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </symbol>
+    <symbol id="g-eye" viewBox="0 0 24 24">
+      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    </symbol>
+    <symbol id="n-ticket" viewBox="0 0 24 24">
+      <path d="M4 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2.2a2.3 2.3 0 0 0 0 3.6V16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2.2a2.3 2.3 0 0 0 0-3.6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M14.5 6.5v11" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.6 2.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="n-coin" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <path d="M12 8.2l1.1 2.2 2.4.4-1.7 1.7.4 2.4-2.2-1.1-2.2 1.1.4-2.4-1.7-1.7 2.4-.4z" fill="currentColor"/>
+    </symbol>
+    <symbol id="g-close" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="g-menu" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="g-swap" viewBox="0 0 24 24">
+      <path d="M7 4L3 8l4 4M3 8h13M17 20l4-4-4-4M21 16H8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ MARKETING NAV ============ -->
+<header class="nav" id="site-nav">
+  <div class="nav-in">
+    <a class="brand" href="#/">
+      <svg class="brand-mark"><use href="#i-logo"/></svg>
+      <span class="brand-word">Sporty<b>Punter</b></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#products">Products</a>
+      <a href="#plans">Plans</a>
+      <a href="#/convert">Free tools</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="#/login">Log in</a>
+      <a class="btn btn-primary" href="#/signup">Get started</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ LANDING ============ -->
+<main class="view" data-view="home">
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Booking codes<br>built on <span class="hl">stats</span>,<br>not guesses.</h1>
+      <p class="lede">Pick a risk level and your odds. The engine studies today's matches and hands you a ready SportyBet code.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary btn-lg" href="#/signup">Start with 150 free credits</a>
+        <a class="btn btn-outline btn-lg" href="#how">How it works</a>
+      </div>
+      <p class="hero-note">No card needed. Your first code is free.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="slip-card float-a">
+        <div class="slip-head">
+          <span class="slip-title"><svg class="ic"><use href="#i-ticket"/></svg> Today's code</span>
+          <span class="code-chip">B3K9XQ2M</span>
+        </div>
+        <div class="slip-leg">
+          <span class="lg-badge" style="--c:#3D195B">PL</span>
+          <div class="leg-mid"><b>Arsenal vs Chelsea</b><span>Home win · 1.72</span></div>
+          <span class="prob">84%</span>
+        </div>
+        <div class="slip-leg">
+          <span class="lg-badge" style="--c:#178A4C">SA</span>
+          <div class="leg-mid"><b>Inter vs Torino</b><span>Home or draw · 1.12</span></div>
+          <span class="prob">95%</span>
+        </div>
+        <div class="slip-foot"><span>6 legs</span><b>Total odds 5.66</b></div>
+      </div>
+      <div class="mini-card float-b">
+        <svg class="ic"><use href="#i-chart"/></svg>
+        <div><b>Every leg analyzed</b><span>Form, goals, head to head</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <h2 class="sec-title">Three steps to a code</h2>
+    <div class="steps3">
+      <div class="step-card">
+        <span class="step-num">1</span>
+        <svg class="ic"><use href="#i-target"/></svg>
+        <h3>Choose your odds</h3>
+        <p>Play Safe or Analysed Risk, from 2 odds to 1000.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">2</span>
+        <svg class="ic"><use href="#i-chart"/></svg>
+        <h3>We read the matches</h3>
+        <p>Form, scoring runs and head to head, leg by leg.</p>
+      </div>
+      <div class="step-card">
+        <span class="step-num">3</span>
+        <svg class="ic"><use href="#i-ticket"/></svg>
+        <h3>Book on SportyBet</h3>
+        <p>One tap takes the code straight to your bet slip.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="products">
+    <h2 class="sec-title">Pick your style</h2>
+    <div class="prod-grid">
+      <div class="prod-card">
+        <svg class="ic"><use href="#i-shield"/></svg>
+        <h3>Play Safe</h3>
+        <p>High probability legs, the kind that land most weeks.</p>
+      </div>
+      <div class="prod-card">
+        <svg class="ic"><use href="#i-bolt"/></svg>
+        <h3>Analysed Risk</h3>
+        <p>Bigger odds from picks the stats still back.</p>
+      </div>
+      <div class="prod-card">
+        <svg class="ic"><use href="#i-target"/></svg>
+        <h3>Longshot</h3>
+        <p>Four days of fixtures for the really big numbers.</p>
+      </div>
+      <div class="prod-card">
+        <svg class="ic"><use href="#i-pencil"/></svg>
+        <h3>Edits</h3>
+        <p>Send a code back and we re-analyze every leg.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="plans">
+    <h2 class="sec-title">Simple plans</h2>
+    <div class="plan-grid">
+      <div class="plan-card">
+        <h3>Free</h3>
+        <p class="price">₦0</p>
+        <ul>
+          <li>150 credits to start</li>
+          <li>Today's games, both risk levels</li>
+          <li>1 code edit a day</li>
+        </ul>
+        <a class="btn btn-outline btn-block" href="#/signup">Create account</a>
+      </div>
+      <div class="plan-card plan-hot">
+        <h3>Lite</h3>
+        <p class="price">₦4,999<span>/mo</span></p>
+        <ul>
+          <li>450 credits daily</li>
+          <li>Any odds, Longshot included</li>
+          <li>5 edits a day, 30 legs per code</li>
+        </ul>
+        <a class="btn btn-primary btn-block" href="#/signup">Choose Lite</a>
+      </div>
+      <div class="plan-card">
+        <h3>Pro</h3>
+        <p class="price">₦9,999<span>/mo</span></p>
+        <ul>
+          <li>1,200 credits daily</li>
+          <li>Unlimited edits</li>
+          <li>50 legs per code</li>
+        </ul>
+        <a class="btn btn-dark btn-block" href="#/signup">Choose Pro</a>
+      </div>
+    </div>
+    <p class="sec-note">Credits never expire. You are charged only when your code exists.</p>
+  </section>
+
+  <section class="section" id="tools">
+    <h2 class="sec-title">Free tools</h2>
+    <div class="tool-grid">
+      <a class="tool-card" href="#/convert">
+        <svg class="ic"><use href="#i-ball"/></svg>
+        <div><h3>Code converter</h3><p>SportyBet, Bet9ja and MSport codes, converted free.</p></div>
+        <svg class="chev"><use href="#g-chev"/></svg>
+      </a>
+      <a class="tool-card" href="#/two-odds">
+        <svg class="ic"><use href="#i-trophy"/></svg>
+        <div><h3>Daily free 2 odds</h3><p>One free code every day, no account needed.</p></div>
+        <svg class="chev"><use href="#g-chev"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <svg class="gift"><use href="#i-gift"/></svg>
+    <h2>Your first code is on us</h2>
+    <p>150 welcome credits, enough for one real booking code.</p>
+    <a class="btn btn-primary btn-lg" href="#/signup">Claim your credits</a>
+  </section>
+</main>
+
+<!-- ============ SIGNUP ============ -->
+<main class="view auth" data-view="signup">
+  <a class="brand auth-brand" href="#/">
+    <svg class="brand-mark"><use href="#i-logo"/></svg>
+    <span class="brand-word">Sporty<b>Punter</b></span>
+  </a>
+  <div class="auth-card">
+    <p class="eyebrow">Step 1 of 3</p>
+    <div class="prog"><span style="width:33%"></span></div>
+    <h1>Start punting smarter.</h1>
+    <div class="gift-row">
+      <svg class="gift-sm"><use href="#i-gift"/></svg>
+      <p><b>150 welcome credits</b> wait inside, enough for your first booking code.</p>
+    </div>
+    <button class="btn btn-google btn-block" id="btn-google">
+      <svg class="g"><use href="#g-google"/></svg> Continue with Google
+    </button>
+    <div class="or"><span>or with email</span></div>
+    <form id="signup-form" novalidate>
+      <label class="field"><span>Username</span>
+        <input type="text" placeholder="punter234" autocomplete="username">
+      </label>
+      <label class="field"><span>Email</span>
+        <input type="email" placeholder="you@example.com" autocomplete="email">
+      </label>
+      <label class="field"><span>Password</span>
+        <div class="pw"><input type="password" placeholder="At least 8 characters" autocomplete="new-password"><button type="button" class="pw-eye" aria-label="Show password"><svg class="g"><use href="#g-eye"/></svg></button></div>
+      </label>
+      <label class="field"><span>Referral code <i>optional</i></span>
+        <input type="text" placeholder=" friend's code">
+      </label>
+      <button class="btn btn-primary btn-block btn-lg" type="submit">Create account</button>
+    </form>
+    <p class="fine">18+ only. By continuing you agree to the <a>terms</a> and <a>privacy policy</a>.</p>
+  </div>
+  <p class="auth-swap">Have an account? <a href="#/login">Log in</a></p>
+</main>
+
+<!-- ============ LOGIN ============ -->
+<main class="view auth" data-view="login">
+  <a class="brand auth-brand" href="#/">
+    <svg class="brand-mark"><use href="#i-logo"/></svg>
+    <span class="brand-word">Sporty<b>Punter</b></span>
+  </a>
+  <div class="auth-card">
+    <h1>Welcome back.</h1>
+    <button class="btn btn-google btn-block" id="btn-google-2">
+      <svg class="g"><use href="#g-google"/></svg> Continue with Google
+    </button>
+    <div class="or"><span>or with email</span></div>
+    <form id="login-form" novalidate>
+      <label class="field"><span>Email</span>
+        <input type="email" placeholder="you@example.com" autocomplete="email">
+      </label>
+      <label class="field"><span>Password</span>
+        <div class="pw"><input type="password" placeholder="Your password" autocomplete="current-password"><button type="button" class="pw-eye" aria-label="Show password"><svg class="g"><use href="#g-eye"/></svg></button></div>
+      </label>
+      <button class="btn btn-primary btn-block btn-lg" type="submit">Log in</button>
+    </form>
+  </div>
+  <p class="auth-swap">New here? <a href="#/signup">Create an account</a></p>
+</main>
+
+<!-- ============ WELCOME SPLASH ============ -->
+<main class="view auth" data-view="welcome">
+  <div class="welcome-card">
+    <p class="eyebrow">Account ready</p>
+    <svg class="gift-lg"><use href="#i-gift"/></svg>
+    <h1>Welcome to SportyPunter</h1>
+    <p class="lede-sm"><b>150 credits</b> added to your balance. That covers your first booking code.</p>
+    <a class="btn btn-primary btn-lg btn-block" href="#/book">Get my first code</a>
+  </div>
+</main>
+
+<!-- ============ APP SHELL (book / progress / result / plans / convert) ============ -->
+<div class="app-shell" data-app>
+  <header class="app-head">
+    <a class="brand" href="#/">
+      <svg class="brand-mark"><use href="#i-logo"/></svg>
+      <span class="brand-word">Sporty<b>Punter</b></span>
+    </a>
+    <div class="app-head-r">
+      <a class="credit-pill" href="#/plans"><svg class="ic18"><use href="#i-coin"/></svg><span id="credit-count">150</span></a>
+      <button class="avatar" id="btn-account" aria-label="Account">M</button>
+    </div>
+  </header>
+
+  <!-- BOOK FLOW -->
+  <main class="view app-view" data-view="book">
+    <h1 class="app-title">Book a game</h1>
+    <div class="steps" id="steps">
+      <section class="qstep" data-step="1">
+        <button class="qstep-head" type="button">
+          <span class="qstep-label"><i class="done-dot"><svg class="g"><use href="#g-check"/></svg></i> When should we look?</span>
+          <span class="qstep-sum"></span>
+          <svg class="chev"><use href="#g-chev"/></svg>
+        </button>
+        <div class="qstep-body">
+          <div class="choice-grid">
+            <button class="choice" data-pick="window" data-value="today" type="button">
+              <svg class="ic"><use href="#i-calendar"/></svg>
+              <b>Today's games</b><span>Next 24 hours</span>
+              <em class="cost"><svg class="ic14"><use href="#i-coin"/></svg>150</em>
+            </button>
+            <button class="choice" data-pick="window" data-value="longshot" type="button">
+              <svg class="ic"><use href="#i-target"/></svg>
+              <b>Longshot</b><span>Next 4 days</span>
+              <em class="cost"><svg class="ic14"><use href="#i-coin"/></svg>300</em>
+            </button>
+          </div>
+          <button class="btn btn-primary btn-block btn-next" data-next="2" disabled>Next</button>
+        </div>
+      </section>
+
+      <section class="qstep" data-step="2">
+        <button class="qstep-head" type="button">
+          <span class="qstep-label"><i class="done-dot"><svg class="g"><use href="#g-check"/></svg></i> Pick a risk level</span>
+          <span class="qstep-sum"></span>
+          <svg class="chev"><use href="#g-chev"/></svg>
+        </button>
+        <div class="qstep-body">
+          <div class="choice-grid">
+            <button class="choice" data-pick="risk" data-value="safe" type="button">
+              <svg class="ic"><use href="#i-shield"/></svg>
+              <b>Play Safe</b><span>High probability legs</span>
+            </button>
+            <button class="choice" data-pick="risk" data-value="risk" type="button">
+              <svg class="ic"><use href="#i-bolt"/></svg>
+              <b>Analysed Risk</b><span>Bigger odds, still backed</span>
+            </button>
+          </div>
+          <button class="btn btn-primary btn-block btn-next" data-next="3" disabled>Next</button>
+        </div>
+      </section>
+
+      <section class="qstep" data-step="3">
+        <button class="qstep-head" type="button">
+          <span class="qstep-label"><i class="done-dot"><svg class="g"><use href="#g-check"/></svg></i> Select odds</span>
+          <span class="qstep-sum"></span>
+          <svg class="chev"><use href="#g-chev"/></svg>
+        </button>
+        <div class="qstep-body">
+          <div class="odds-grid">
+            <button class="odds" data-pick="band" data-value="2-5" type="button"><b>2 - 5</b></button>
+            <button class="odds" data-pick="band" data-value="5-10" type="button"><b>5 - 10</b></button>
+            <button class="odds" data-pick="band" data-value="10-30" type="button"><b>10 - 30</b></button>
+            <button class="odds" data-pick="band" data-value="30-60" type="button"><b>30 - 60</b></button>
+            <button class="odds is-locked" type="button"><b>60 - 100</b><span>Upgrade</span></button>
+            <button class="odds is-locked" type="button"><b>100+</b><span>Upgrade</span></button>
+          </div>
+          <button class="btn btn-primary btn-block btn-lg" id="btn-book" disabled>Book game · <svg class="ic14"><use href="#i-coin"/></svg> <span id="book-cost">150</span></button>
+          <p class="fine center">Charged only when your code exists.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- PROGRESS -->
+  <main class="view app-view" data-view="progress">
+    <h1 class="app-title">Building your code</h1>
+    <div class="prog-panel">
+      <div class="prog-current"><span class="spinner"></span><b id="prog-msg">Reading today's fixtures…</b></div>
+      <ol class="prog-list" id="prog-list"></ol>
+      <div class="prog-bar"><span id="prog-fill"></span></div>
+      <p class="fine">This takes about a minute. We read live odds, pull team form, then the analyst checks every leg before booking.</p>
+    </div>
+  </main>
+
+  <!-- RESULT -->
+  <main class="view app-view" data-view="result">
+    <div class="ticket">
+      <div class="ticket-top">
+        <p class="eyebrow light">Your SportyBet code</p>
+        <div class="code-row">
+          <b class="code-big" id="res-code">B3K9XQ2M</b>
+          <button class="btn btn-copy" id="btn-copy"><svg class="g"><use href="#g-copy"/></svg> Copy</button>
+        </div>
+        <p class="ticket-meta"><span id="res-legs">6 legs</span> · Total odds <b id="res-odds">5.66</b></p>
+      </div>
+      <div class="ticket-tear"></div>
+      <ol class="legs" id="legs"></ol>
+    </div>
+    <a class="btn btn-primary btn-lg btn-block" href="#" id="btn-sportybet">Open in SportyBet</a>
+    <div class="convert-row">
+      <span>Same games on</span>
+      <button class="chip" type="button">Bet9ja</button>
+      <button class="chip" type="button">MSport</button>
+    </div>
+    <a class="btn btn-outline btn-block" href="#/book">Book another game</a>
+  </main>
+
+  <!-- PLANS -->
+  <main class="view app-view" data-view="plans">
+    <h1 class="app-title">Credits and plans</h1>
+    <div class="balance-card">
+      <svg class="gift-sm"><use href="#i-gift"/></svg>
+      <div><p class="bal-num"><span id="bal-count">150</span> credits</p><p class="fine">Never expire. A code costs 150, a Longshot 300, an edit 200.</p></div>
+    </div>
+    <div class="plan-grid app-plans">
+      <div class="plan-card plan-hot">
+        <h3>Lite</h3>
+        <p class="price">₦4,999<span>/mo</span></p>
+        <ul><li>450 credits daily</li><li>Any odds, Longshot included</li><li>5 edits a day</li></ul>
+        <button class="btn btn-primary btn-block" type="button">Choose Lite</button>
+      </div>
+      <div class="plan-card">
+        <h3>Pro</h3>
+        <p class="price">₦9,999<span>/mo</span></p>
+        <ul><li>1,200 credits daily</li><li>Unlimited edits</li><li>50 legs per code</li></ul>
+        <button class="btn btn-dark btn-block" type="button">Choose Pro</button>
+      </div>
+    </div>
+    <h2 class="sub-title">Top up credits</h2>
+    <div class="pack-grid">
+      <button class="pack" type="button"><b>600</b><span>₦1,000</span></button>
+      <button class="pack" type="button"><b>2,000</b><span>₦3,000</span></button>
+      <button class="pack" type="button"><b>4,000</b><span>₦5,000</span></button>
+      <button class="pack" type="button"><b>18,000</b><span>₦15,000</span></button>
+    </div>
+  </main>
+
+  <!-- CONVERTER -->
+  <main class="view app-view" data-view="convert">
+    <h1 class="app-title">Code converter</h1>
+    <p class="lede-sm">Move a booking code between bookies. Free, no signup.</p>
+    <div class="conv-card">
+      <label class="field"><span>Booking code</span><input type="text" placeholder="e.g. B3K9XQ2M" id="conv-code"></label>
+      <div class="conv-dir">
+        <label class="field"><span>From</span>
+          <select id="conv-from"><option>SportyBet</option><option>Bet9ja</option><option>MSport</option></select>
+        </label>
+        <span class="swap-ic"><svg class="g"><use href="#g-swap"/></svg></span>
+        <label class="field"><span>To</span>
+          <select id="conv-to"><option>Bet9ja</option><option>SportyBet</option><option>MSport</option></select>
+        </label>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" id="btn-convert" type="button">Convert</button>
+      <div class="conv-out" id="conv-out" hidden>
+        <p class="eyebrow">Converted code</p>
+        <div class="code-row"><b class="code-big" id="conv-res"></b>
+        <button class="btn btn-copy" id="btn-copy-conv"><svg class="g"><use href="#g-copy"/></svg> Copy</button></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- DAILY 2 ODDS -->
+  <main class="view app-view" data-view="two-odds">
+    <h1 class="app-title">Today's free 2 odds</h1>
+    <p class="lede-sm">One free code every day. No account, no credits.</p>
+    <div class="ticket">
+      <div class="ticket-top">
+        <p class="eyebrow light">Free daily code</p>
+        <div class="code-row"><b class="code-big">F2D8KP4A</b>
+        <button class="btn btn-copy" data-copy="F2D8KP4A"><svg class="g"><use href="#g-copy"/></svg> Copy</button></div>
+        <p class="ticket-meta">2 legs · Total odds <b>2.04</b></p>
+      </div>
+      <div class="ticket-tear"></div>
+      <ol class="legs">
+        <li class="leg"><span class="lg-badge" style="--c:#3D195B">PL</span>
+          <div class="leg-mid"><b>Liverpool vs Fulham</b><span class="market">Home win · 1.38</span>
+          <span class="comment">Liverpool have scored in all of their last 9 home games.</span></div>
+          <span class="prob">89%</span></li>
+        <li class="leg"><span class="lg-badge" style="--c:#DA291C">LA</span>
+          <div class="leg-mid"><b>Barcelona vs Alaves</b><span class="market">Over 1.5 goals · 1.48</span>
+          <span class="comment">Barcelona's last 6 home games all went over 1.5 goals.</span></div>
+          <span class="prob">86%</span></li>
+      </ol>
+    </div>
+    <a class="btn btn-outline btn-block" href="#/signup">Get 150 free credits for more</a>
+  </main>
+
+  <!-- bottom nav -->
+  <nav class="bottom-nav">
+    <a href="#/book" data-nav="book"><svg class="ic22 nav-g"><use href="#n-ticket"/></svg>Book</a>
+    <a href="#/plans" data-nav="plans"><svg class="ic22 nav-g"><use href="#n-coin"/></svg>Credits</a>
+    <a href="#/convert" data-nav="convert"><svg class="ic22 nav-g"><use href="#g-swap"/></svg>Convert</a>
+    <button id="btn-account-2" data-nav="account" type="button"><span class="avatar sm">M</span>Account</button>
+  </nav>
+</div>
+
+<!-- account drawer -->
+<div class="drawer-veil" id="drawer-veil" hidden></div>
+<aside class="drawer" id="drawer" hidden>
+  <div class="drawer-head">
+    <span class="avatar lg">M</span>
+    <div><b id="drawer-name">michael</b><span class="fine">Free plan</span></div>
+    <button class="icon-btn" id="drawer-close" aria-label="Close"><svg class="g"><use href="#g-close"/></svg></button>
+  </div>
+  <a class="drawer-row" href="#/plans"><svg class="ic18"><use href="#i-coin"/></svg> Credits <b class="drawer-val">150</b></a>
+  <a class="drawer-row" href="#/result"><svg class="ic18"><use href="#i-ticket"/></svg> My codes <span class="chev-r"><svg class="chev"><use href="#g-chev"/></svg></span></a>
+  <a class="drawer-row" href="#/convert"><svg class="ic18"><use href="#g-swap"/></svg> Code converter <span class="chev-r"><svg class="chev"><use href="#g-chev"/></svg></span></a>
+  <a class="drawer-row" href="#/"><svg class="ic18"><use href="#g-back"/></svg> Log out</a>
+</aside>
+
+<footer class="site-foot" data-view="home">
+  <div class="foot-in">
+    <a class="brand" href="#/"><svg class="brand-mark"><use href="#i-logo"/></svg><span class="brand-word">Sporty<b>Punter</b></span></a>
+    <p class="fine">18+ only. Analysis tool, not a bookmaker. Gamble responsibly and never stake more than you can afford to lose.</p>
+    <p class="fine">support@sportypunter.site · Redesign preview</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+                                         </html>
