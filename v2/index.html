@@ -13,11 +13,7 @@
 </head>
 <body>
 
-<div class="bg-decor" aria-hidden="true">
-  <div class="blob blob-a"></div>
-  <div class="blob blob-b"></div>
-  <div class="grid-lines"></div>
-</div>
+<div class="bg-decor" aria-hidden="true"></div>
 
 <!-- ============ SVG ICON SPRITE ============ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -124,7 +120,10 @@
     <symbol id="g-chev" viewBox="0 0 24 24">
       <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </symbol>
-    <symbol id="g-back" viewBox="0 0 24 24">
+    <symbol id="g-check-w" viewBox="0 0 24 24"><path d="M6 12.6l4 4L18.5 8" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="g-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="g-target-w" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4" stroke="#fff" stroke-width="2.2" fill="none"/><circle cx="12" cy="12" r="4.6" stroke="#fff" stroke-width="2.2" fill="none"/><circle cx="12" cy="12" r="1.6" fill="#fff"/></symbol>
+  <symbol id="g-back" viewBox="0 0 24 24">
       <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </symbol>
     <symbol id="g-eye" viewBox="0 0 24 24">
@@ -328,20 +327,17 @@
   </a>
   <div class="auth-card">
     <p class="demo-flag">Design preview. This form is a demo and creates no real account.</p>
-    <p class="eyebrow">Step 1 of 3</p>
-    <div class="prog"><span style="width:33%"></span></div>
-    <h1>Start punting smarter.</h1>
+    <h1 class="auth-title">Start punting<br><span class="tr">smarter.</span></h1>
     <div class="gift-row">
-      <svg class="gift-sm"><use href="#i-gift"/></svg>
-      <p><b>150 welcome credits</b> wait inside, enough for your first booking code.</p>
+      <span class="gift-tile"><svg class="gift-sm"><use href="#i-gift"/></svg></span>
+      <p><b>150 welcome credits</b><span>Enough for your first booking code.</span></p>
     </div>
     <button class="btn btn-google btn-block" id="btn-google">
-      <svg class="g"><use href="#g-google"/></svg> Continue with Google
+      <svg class="g"><use href="#g-google"/></svg> Sign up with Google
     </button>
-    <div class="or"><span>or with email</span></div>
     <form id="signup-form" novalidate>
       <label class="field"><span>Username</span>
-        <input type="text" placeholder="punter234" autocomplete="username">
+        <input type="text" placeholder="yourname" autocomplete="username">
       </label>
       <label class="field"><span>Email</span>
         <input type="email" placeholder="you@example.com" autocomplete="email">
@@ -349,14 +345,17 @@
       <label class="field"><span>Password</span>
         <div class="pw"><input type="password" placeholder="At least 8 characters" autocomplete="new-password"><button type="button" class="pw-eye" aria-label="Show password"><svg class="g"><use href="#g-eye"/></svg></button></div>
       </label>
-      <label class="field"><span>Referral code <i>optional</i></span>
-        <input type="text" placeholder=" friend's code">
-      </label>
+      <div class="ref">
+        <button type="button" class="ref-toggle" id="ref-toggle" aria-expanded="false">Have a referral code? <svg class="g"><use href="#g-chev"/></svg></button>
+        <div class="ref-body" id="ref-body" hidden>
+          <input type="text" placeholder="Enter your code" aria-label="Referral code" autocapitalize="characters" autocomplete="off" spellcheck="false">
+        </div>
+      </div>
       <button class="btn btn-primary btn-block btn-lg" type="submit">Create account</button>
     </form>
-    <p class="fine">18+ only. By continuing you agree to the <a>terms</a> and <a>privacy policy</a>.</p>
+    <p class="fine">18+ only. SportyPunter is an analysis tool, not a guarantee of winning. By continuing you accept our <a>terms</a> and <a>privacy policy</a>.</p>
   </div>
-  <p class="auth-swap">Have an account? <a href="#/login">Log in</a></p>
+  <p class="auth-swap">Already have an account? <a href="#/login">Log in</a></p>
 </main>
 
 <!-- ============ LOGIN ============ -->
@@ -388,11 +387,24 @@
 <!-- ============ WELCOME SPLASH ============ -->
 <main class="view auth" data-view="welcome">
   <div class="welcome-card">
-    <p class="eyebrow">Account ready</p>
-    <svg class="gift-lg"><use href="#i-gift"/></svg>
-    <h1>Welcome to SportyPunter</h1>
-    <p class="lede-sm"><b>150 credits</b> added to your balance. That covers your first booking code.</p>
-    <a class="btn btn-primary btn-lg btn-block" href="#/book">Get my first code</a>
+    <div class="w-logo sp-pop">
+      <svg class="w-mark"><use href="#i-logo"/></svg>
+      <span class="w-badge sp-badge"><svg class="g"><use href="#g-check-w"/></svg></span>
+    </div>
+    <p class="w-eyebrow sp-rise" style="animation-delay:.35s">Account created</p>
+    <h1 class="sp-rise" style="animation-delay:.45s">Welcome to<br>SportyPunter</h1>
+    <p class="w-sub sp-rise" style="animation-delay:.6s">Good to have you, punter.</p>
+    <div class="w-credits sp-rise" style="animation-delay:.8s">
+      <span class="w-gift"><svg><use href="#i-gift"/></svg></span>
+      <div class="w-credits-txt">
+        <b>150 credits are ready</b>
+        <span>They cover your first booking code.</span>
+      </div>
+    </div>
+  </div>
+  <div class="welcome-cta sp-rise" style="animation-delay:1s">
+    <a class="btn btn-white btn-lg btn-block" href="#/book"><svg class="g"><use href="#i-ticket"/></svg> Get my first code <svg class="g"><use href="#g-arrow"/></svg></a>
+    <p class="w-demo">Design preview. No real account was created.</p>
   </div>
 </main>
 
@@ -409,109 +421,121 @@
     </div>
   </header>
 
-  <!-- BOOK FLOW -->
+  <!-- BOOK FLOW: baseline full-screen one-question flow -->
   <main class="view app-view" data-view="book">
-    <h1 class="app-title">Book a game</h1>
-    <div class="steps" id="steps">
-      <section class="qstep" data-step="1">
-        <button class="qstep-head" type="button">
-          <span class="qstep-label"><i class="done-dot"><svg class="g"><use href="#g-check"/></svg></i> When should we look?</span>
-          <span class="qstep-sum"></span>
-          <svg class="chev"><use href="#g-chev"/></svg>
-        </button>
-        <div class="qstep-body">
-          <div class="choice-grid">
-            <button class="choice" data-pick="window" data-value="today" type="button">
-              <svg class="ic"><use href="#i-calendar"/></svg>
-              <b>Today's games</b><span>Next 24 hours</span>
-              <em class="cost"><svg class="ic14"><use href="#i-coin"/></svg>150</em>
-            </button>
-            <button class="choice" data-pick="window" data-value="longshot" type="button">
-              <svg class="ic"><use href="#i-target"/></svg>
-              <b>Longshot</b><span>Next 4 days</span>
-              <em class="cost"><svg class="ic14"><use href="#i-coin"/></svg>300</em>
-            </button>
-          </div>
-          <button class="btn btn-primary btn-block btn-next" data-next="2" disabled>Next</button>
+    <div class="flow">
+      <div class="flow-top">
+        <button class="back-btn" id="flow-back" type="button" aria-label="Back"><svg class="g"><use href="#g-back"/></svg></button>
+        <div class="fprog" id="fprog" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1">
+          <span></span><span></span><span></span>
         </div>
-      </section>
-
-      <section class="qstep" data-step="2">
-        <button class="qstep-head" type="button">
-          <span class="qstep-label"><i class="done-dot"><svg class="g"><use href="#g-check"/></svg></i> Pick a risk level</span>
-          <span class="qstep-sum"></span>
-          <svg class="chev"><use href="#g-chev"/></svg>
-        </button>
-        <div class="qstep-body">
-          <div class="choice-grid">
-            <button class="choice" data-pick="risk" data-value="safe" type="button">
-              <svg class="ic"><use href="#i-shield"/></svg>
-              <b>Play Safe</b><span>High probability legs</span>
-            </button>
-            <button class="choice" data-pick="risk" data-value="risk" type="button">
-              <svg class="ic"><use href="#i-bolt"/></svg>
-              <b>Analysed Risk</b><span>Bigger odds, still backed</span>
-            </button>
-          </div>
-          <button class="btn btn-primary btn-block btn-next" data-next="3" disabled>Next</button>
-        </div>
-      </section>
-
-      <section class="qstep" data-step="3">
-        <button class="qstep-head" type="button">
-          <span class="qstep-label"><i class="done-dot"><svg class="g"><use href="#g-check"/></svg></i> Select odds</span>
-          <span class="qstep-sum"></span>
-          <svg class="chev"><use href="#g-chev"/></svg>
-        </button>
-        <div class="qstep-body">
-          <div class="odds-grid">
-            <button class="odds" data-pick="band" data-value="2-5" type="button"><b>2 - 5</b></button>
-            <button class="odds" data-pick="band" data-value="5-10" type="button"><b>5 - 10</b></button>
-            <button class="odds" data-pick="band" data-value="10-30" type="button"><b>10 - 30</b></button>
-            <button class="odds" data-pick="band" data-value="30-60" type="button"><b>30 - 60</b></button>
-            <button class="odds is-locked" type="button"><b>60 - 100</b><span>Upgrade</span></button>
-            <button class="odds is-locked" type="button"><b>100+</b><span>Upgrade</span></button>
-          </div>
-          <button class="btn btn-primary btn-block btn-lg" id="btn-book" disabled>Book game · <svg class="ic14"><use href="#i-coin"/></svg> <span id="book-cost">150</span></button>
-          <p class="fine center">Charged only when your code exists.</p>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <!-- PROGRESS -->
-  <main class="view app-view" data-view="progress">
-    <h1 class="app-title">Building your code</h1>
-    <div class="prog-panel">
-      <div class="prog-current"><span class="spinner"></span><b id="prog-msg">Reading today's fixtures…</b></div>
-      <ol class="prog-list" id="prog-list"></ol>
-      <div class="prog-bar"><span id="prog-fill"></span></div>
-      <p class="fine">This takes about a minute. We read live odds, pull team form, then the analyst checks every leg before booking.</p>
-    </div>
-  </main>
-
-  <!-- RESULT -->
-  <main class="view app-view" data-view="result">
-    <div class="ticket">
-      <div class="ticket-top">
-        <p class="eyebrow light">Sample code <span class="demo-flag on-dark">Demo data</span></p>
-        <div class="code-row">
-          <b class="code-big" id="res-code">DEMO0001</b>
-          <button class="btn btn-copy" id="btn-copy"><svg class="g"><use href="#g-copy"/></svg> Copy</button>
-        </div>
-        <p class="ticket-meta"><span id="res-legs">6 legs</span> · Total odds <b id="res-odds">5.66</b></p>
+        <span class="fcount" id="fcount">1/3</span>
       </div>
-      <div class="ticket-tear"></div>
-      <p class="demo-banner">Demo data. Matches, odds and comments below are made-up samples, not real tips.</p>
-      <ol class="legs" id="legs"></ol>
+
+      <section class="fstep" data-fstep="0">
+        <h1>When are you playing?</h1>
+        <p class="fsub">Choose which matches go on your slip.</p>
+        <div class="flist" role="radiogroup" aria-label="When are you playing?">
+          <button class="choice" data-pick="window" data-value="today" type="button" role="radio" aria-checked="true">
+            <span class="ic-tile"><svg class="ic"><use href="#i-calendar"/></svg></span>
+            <span class="choice-txt"><b>Today's games</b><span>Kicking off in the next 24 hours</span></span>
+          </button>
+          <button class="choice" data-pick="window" data-value="longshot" type="button" role="radio" aria-checked="false">
+            <span class="ic-tile"><svg class="ic"><use href="#i-target"/></svg></span>
+            <span class="choice-txt"><b>Longshot</b><span>Anything in the next 7 days</span></span>
+          </button>
+        </div>
+        <div class="flow-foot">
+          <button class="btn btn-primary btn-block btn-lg flow-next" type="button">Continue</button>
+        </div>
+      </section>
+
+      <section class="fstep" data-fstep="1">
+        <h1>How do you want to play?</h1>
+        <p class="fsub">You can change this any time.</p>
+        <div class="flist" role="radiogroup" aria-label="How do you want to play?">
+          <button class="choice" data-pick="risk" data-value="safe" type="button" role="radio" aria-checked="true">
+            <span class="ic-tile"><svg class="ic"><use href="#i-shield"/></svg></span>
+            <span class="choice-txt"><b>Play Safe</b><span>Picks the model rates most likely</span></span>
+          </button>
+          <button class="choice" data-pick="risk" data-value="risk" type="button" role="radio" aria-checked="false">
+            <span class="ic-tile"><svg class="ic"><use href="#i-bolt"/></svg></span>
+            <span class="choice-txt"><b>Analysed Risk</b><span>Bolder picks, backed by stats</span></span>
+          </button>
+        </div>
+        <button class="detail-toggle" id="detail-toggle" type="button" aria-expanded="false">What is the difference? <svg class="g"><use href="#g-chev"/></svg></button>
+        <p class="detail-panel" id="detail-panel" hidden>Play Safe leans on the picks the model rates most likely. Analysed Risk accepts less certain picks when the stats back them, so slips can pay more and miss more.</p>
+        <div class="flow-foot">
+          <button class="btn btn-primary btn-block btn-lg flow-next" type="button">Continue</button>
+        </div>
+      </section>
+
+      <section class="fstep" data-fstep="2">
+        <h1>Pick your target odds</h1>
+        <p class="fsub">Higher odds mean more legs and more risk.</p>
+        <div class="flist" role="radiogroup" aria-label="Pick your target odds">
+          <button class="choice" data-pick="band" data-value="2-5" type="button" role="radio" aria-checked="true">
+            <span class="ic-tile"><svg class="ic"><use href="#i-chart"/></svg></span>
+            <span class="choice-txt"><b>2 - 5</b><span>Small, steady slip</span></span>
+          </button>
+          <button class="choice" data-pick="band" data-value="5-10" type="button" role="radio" aria-checked="false">
+            <span class="ic-tile"><svg class="ic"><use href="#i-chart"/></svg></span>
+            <span class="choice-txt"><b>5 - 10</b><span>A step up</span></span>
+          </button>
+          <button class="choice" data-pick="band" data-value="10-30" type="button" role="radio" aria-checked="false">
+            <span class="ic-tile"><svg class="ic"><use href="#i-chart"/></svg></span>
+            <span class="choice-txt"><b>10 - 30</b><span>Bigger swing</span></span>
+          </button>
+          <button class="choice" data-pick="band" data-value="30+" type="button" role="radio" aria-checked="false">
+            <span class="ic-tile"><svg class="ic"><use href="#i-trophy"/></svg></span>
+            <span class="choice-txt"><b>30 and above</b><span>Long shot</span></span>
+          </button>
+        </div>
+        <div class="flow-foot">
+          <button class="btn btn-primary btn-block btn-lg" id="btn-book" type="button">Build my code</button>
+          <p class="flow-note">Uses your welcome credits.</p>
+        </div>
+      </section>
     </div>
-    <a class="btn btn-primary btn-lg btn-block" href="#" id="btn-sportybet">Open in SportyBet</a>
-    <div class="convert-row">
-      <span>Same games on</span>
-      <button class="chip" type="button">Bet9ja</button>
-      <button class="chip" type="button">MSport</button>
+  </main>
+
+  <!-- PROGRESS: baseline build phase -->
+  <main class="view app-view" data-view="progress">
+    <div class="build">
+      <div class="build-tile">
+        <span class="build-ping"></span>
+        <span class="build-box"><svg class="g spin"><use href="#g-target-w"/></svg></span>
+      </div>
+      <h1>Building your code</h1>
+      <p class="build-line" id="build-line">Reading today's fixtures</p>
+      <div class="build-bar"><span id="build-fill"></span></div>
     </div>
-    <a class="btn btn-outline btn-block" href="#/book">Book another game</a>
+  </main>
+
+  <!-- RESULT: baseline done phase -->
+  <main class="view app-view" data-view="result">
+    <div class="done">
+      <div class="done-tile sp-pop"><svg class="g"><use href="#g-check-w"/></svg></div>
+      <h1 class="sp-rise" style="animation-delay:.1s">Your booking code is ready</h1>
+      <p class="fsub sp-rise" style="animation-delay:.15s">Paste it into SportyBet to load your slip.</p>
+      <div class="code-card sp-rise" style="animation-delay:.25s">
+        <p class="code-label">Booking code</p>
+        <p class="code-big" id="res-code">DEMO0001</p>
+        <p class="code-note">Demo preview. This is a placeholder, not a real code.</p>
+      </div>
+      <div class="picks sp-rise" style="animation-delay:.35s">
+        <button class="picks-toggle" id="picks-toggle" type="button" aria-expanded="false">See the picks on this slip <svg class="g"><use href="#g-chev"/></svg></button>
+        <ul class="picks-list" id="picks-list" hidden>
+          <li><svg class="g"><use href="#g-check"/></svg> Sample pick: Home win</li>
+          <li><svg class="g"><use href="#g-check"/></svg> Sample pick: Over 1.5 goals</li>
+          <li><svg class="g"><use href="#g-check"/></svg> Sample pick: Both teams to score</li>
+        </ul>
+      </div>
+      <div class="done-foot sp-rise" style="animation-delay:.45s">
+        <button class="btn btn-primary btn-block btn-lg" id="btn-copy" type="button"><svg class="g"><use href="#g-copy"/></svg> Copy booking code</button>
+        <button class="done-restart" id="btn-restart" type="button">Start over</button>
+      </div>
+    </div>
   </main>
 
   <!-- PLANS -->
