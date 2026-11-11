@@ -45,8 +45,3 @@ h1,h2,h3{letter-spacing:-.015em;line-height:1.12;font-weight:800}
 .blob{position:absolute;border-radius:50%;filter:blur(72px)}
 .blob-a{width:24rem;height:24rem;background:color-mix(in oklch,var(--red) 25%,transparent);top:-10rem;left:-6rem}
 .blob-b{width:24rem;height:24rem;background:color-mix(in oklch,var(--red) 15%,transparent);top:25%;right:-7rem}
-.grid-lines{position:absolute;inset:0;color:var(--red);opacity:.05;
-  background-image:linear-gradient(to right,currentColor 1px,transparent 1px),linear-gradient(to bottom,currentColor 1px,transparent 1px);
-  background-size:32px 32px}
-.bg-decor::before{content:"";position:absolute;top:-6rem;right:-6rem;width:18rem;height:18rem;
-  border-radius:3rem;transform:rotate(12deg);background:color-mix(in oklch,var(--red) 10%,transparent)}
