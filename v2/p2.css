@@ -1,4 +1,4 @@
-.grid-lines{position:absolute;inset:0;color:var(--red);opacity:.05;
+.grid-lines{position:absolute;inset:0;color:var(--red);opacity:.028;
   background-image:linear-gradient(to right,currentColor 1px,transparent 1px),linear-gradient(to bottom,currentColor 1px,transparent 1px);
   background-size:32px 32px}
 .bg-decor::before{content:"";position:absolute;top:-6rem;right:-6rem;width:18rem;height:18rem;
