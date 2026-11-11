@@ -42,6 +42,6 @@ h1,h2,h3{letter-spacing:-.015em;line-height:1.12;font-weight:800}
 
 /* ---------- background decor: the loved soft-red paper ---------- */
 .bg-decor{position:fixed;inset:0;z-index:-1;overflow:hidden}
-.blob{position:absolute;border-radius:50%;filter:blur(72px)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px)}
 .blob-a{width:24rem;height:24rem;background:color-mix(in oklch,var(--red) 25%,transparent);top:-10rem;left:-6rem}
 .blob-b{width:24rem;height:24rem;background:color-mix(in oklch,var(--red) 15%,transparent);top:25%;right:-7rem}
