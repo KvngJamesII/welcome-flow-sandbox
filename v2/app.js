@@ -4,6 +4,7 @@
 
   var MARKETING = ["home", "signup", "login", "welcome"];
   var APP = ["book", "progress", "result", "plans", "convert", "two-odds"];
+  var FLOW = ["book", "progress", "result"]; // focused baseline flow: no app chrome
 
   var nav = document.getElementById("site-nav");
   var shell = document.querySelector("[data-app]");
@@ -21,6 +22,8 @@
       v.classList.toggle("active", v.getAttribute("data-view") === hash);
     });
     shell.classList.toggle("active", isApp);
+    shell.classList.toggle("flow-mode", FLOW.indexOf(hash) !== -1);
+    shell.classList.toggle("show-nav", hash === "result");
     nav.classList.toggle("active", hash === "home");
     foot.classList.toggle("active", hash === "home");
 
@@ -32,137 +35,124 @@
   window.addEventListener("hashchange", route);
   route();
 
-  /* ---------- booking steps ---------- */
-  var state = { window: null, risk: null, band: null };
-  var COST = { today: 150, longshot: 300 };
-  var steps = document.getElementById("steps");
-  if (steps) {
-    var qsteps = Array.prototype.slice.call(steps.querySelectorAll(".qstep"));
+  /* ---------- booking flow: one question per screen (baseline /start) ---------- */
+  var STEP_TITLES = ["When are you playing?", "How do you want to play?", "Pick your target odds"];
+  var state = { window: "today", risk: "safe", band: "2-5" };
+  var step = 0;
+  var fsteps = Array.prototype.slice.call(document.querySelectorAll(".fstep"));
+  var backBtn = document.getElementById("flow-back");
+  var fprog = document.getElementById("fprog");
+  var fcount = document.getElementById("fcount");
 
-    function openStep(n) {
-      qsteps.forEach(function (s) {
-        var sn = Number(s.getAttribute("data-step"));
-        s.classList.toggle("open", sn === n);
-        var answered =
-          (sn === 1 && state.window) ||
-          (sn === 2 && state.risk) ||
-          (sn === 3 && state.band);
-        s.classList.toggle("done", !!answered);
-        var sum = s.querySelector(".qstep-sum");
-        if (sn === 1) sum.textContent = state.window === "today" ? "Today" : state.window === "longshot" ? "Longshot" : "";
-        if (sn === 2) sum.textContent = state.risk === "safe" ? "Play Safe" : state.risk === "risk" ? "Analysed Risk" : "";
-        if (sn === 3) sum.textContent = state.band ? state.band + " odds" : "";
-      });
-      var bookBtn = document.getElementById("btn-book");
-      var ready = state.window && state.risk && state.band;
-      bookBtn.disabled = !ready;
-      document.getElementById("book-cost").textContent = COST[state.window] || 150;
-    }
+  function renderStep() {
+    fsteps.forEach(function (s) {
+      s.classList.toggle("on", Number(s.getAttribute("data-fstep")) === step);
+    });
+    backBtn.style.visibility = step === 0 ? "hidden" : "visible";
+    var segs = fprog.querySelectorAll("span");
+    segs.forEach(function (seg, i) {
+      seg.classList.toggle("fill", i <= step);
+    });
+    fprog.setAttribute("aria-valuenow", String(step + 1));
+    fcount.textContent = (step + 1) + "/3";
+  }
 
-    qsteps.forEach(function (s) {
-      s.querySelector(".qstep-head").addEventListener("click", function () {
-        var sn = Number(s.getAttribute("data-step"));
-        s.classList.contains("open") ? s.classList.remove("open") : openStep(sn);
+  document.querySelectorAll("[data-pick]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      var kind = el.getAttribute("data-pick");
+      state[kind] = el.getAttribute("data-value");
+      document.querySelectorAll('[data-pick="' + kind + '"]').forEach(function (peer) {
+        var on = peer === el;
+        peer.classList.toggle("sel", on);
+        peer.setAttribute("aria-checked", on ? "true" : "false");
       });
     });
+  });
 
-    document.querySelectorAll("[data-pick]").forEach(function (el) {
-      el.addEventListener("click", function () {
-        if (el.classList.contains("is-locked")) return;
-        var kind = el.getAttribute("data-pick");
-        var value = el.getAttribute("data-value");
-        state[kind] = value;
-        document.querySelectorAll('[data-pick="' + kind + '"]').forEach(function (peer) {
-          peer.classList.toggle("sel", peer === el);
-        });
-        var stepEl = el.closest(".qstep");
-        var nextBtn = stepEl.querySelector(".btn-next");
-        if (nextBtn) nextBtn.disabled = false;
-        openStep(Number(stepEl.getAttribute("data-step")));
-        stepEl.classList.add("open");
-      });
+  document.querySelectorAll(".flow-next").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      if (step < 2) { step++; renderStep(); window.scrollTo(0, 0); }
     });
+  });
+  backBtn.addEventListener("click", function () {
+    if (step > 0) { step--; renderStep(); }
+  });
 
-    document.querySelectorAll(".btn-next").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        openStep(Number(btn.getAttribute("data-next")));
-      });
-    });
-
-    openStep(1);
-
-    document.getElementById("btn-book").addEventListener("click", function () {
-      location.hash = "#/progress";
-      runProgress();
+  var detailToggle = document.getElementById("detail-toggle");
+  if (detailToggle) {
+    detailToggle.addEventListener("click", function () {
+      var panel = document.getElementById("detail-panel");
+      var open = panel.hidden;
+      panel.hidden = !open;
+      detailToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      detailToggle.classList.toggle("open", open);
     });
   }
 
-  /* ---------- staged progress (demo of the real ~1 min pipeline, shortened) ---------- */
-  var MSGS = [
-    "Reading today's fixtures…",
-    "Pulling team form and scoring runs…",
-    "Checking head to head records…",
-    "Analyst reviewing every leg…",
-    "Locking odds with SportyBet…",
-    "Booking your code…"
-  ];
-  var progTimer = null;
-  function runProgress() {
-    var list = document.getElementById("prog-list");
-    var msg = document.getElementById("prog-msg");
-    var fill = document.getElementById("prog-fill");
-    list.innerHTML = "";
-    fill.style.width = "6%";
-    var i = 0;
-    msg.textContent = MSGS[0];
-    clearInterval(progTimer);
-    progTimer = setInterval(function () {
-      var li = document.createElement("li");
-      li.innerHTML = '<svg><use href="#g-check"/></svg>' + MSGS[i].replace("…", "");
-      list.appendChild(li);
-      i++;
-      if (i < MSGS.length) {
-        msg.textContent = MSGS[i];
-        fill.style.width = Math.round(((i + 1) / MSGS.length) * 100) + "%";
-      } else {
-        clearInterval(progTimer);
-        fill.style.width = "100%";
-        renderResult();
-        location.hash = "#/result";
-      }
-    }, 1400);
+  /* preselect baseline defaults */
+  document.querySelectorAll("[data-pick]").forEach(function (el) {
+    var kind = el.getAttribute("data-pick");
+    var on = state[kind] === el.getAttribute("data-value");
+    el.classList.toggle("sel", on);
+    el.setAttribute("aria-checked", on ? "true" : "false");
+  });
+  renderStep();
+
+  document.getElementById("btn-book").addEventListener("click", function () {
+    location.hash = "#/progress";
+    runBuild();
+  });
+
+  /* ---------- build phase (baseline staged lines, shortened for the demo) ---------- */
+  var BUILD_LINES = ["Reading today's fixtures", "Checking team form", "Building your slip", "Booking your code"];
+  var buildTimers = [];
+  function runBuild() {
+    var line = document.getElementById("build-line");
+    var fill = document.getElementById("build-fill");
+    buildTimers.forEach(clearTimeout);
+    buildTimers = [];
+    line.textContent = BUILD_LINES[0];
+    fill.style.transition = "none";
+    fill.style.transform = "scaleX(0)";
+    void fill.offsetWidth;
+    fill.style.transition = "";
+    fill.style.transitionDuration = (BUILD_LINES.length * 1.1) + "s";
+    fill.style.transform = "scaleX(1)";
+    BUILD_LINES.forEach(function (_, i) {
+      buildTimers.push(setTimeout(function () {
+        line.textContent = BUILD_LINES[i];
+        line.classList.remove("sp-rise");
+        void line.offsetWidth;
+        line.classList.add("sp-rise");
+      }, i * 1100));
+    });
+    buildTimers.push(setTimeout(function () {
+      location.hash = "#/result";
+    }, BUILD_LINES.length * 1100 + 400));
   }
 
-  /* ---------- result (sample analyzed slip) ---------- */
-  var LEGS = [
-    { lg: "SA", c: "#178A4C", match: "Inter vs Torino", market: "Home or draw · 1.12", prob: 95, note: "Inter are unbeaten in their last 12 home league games." },
-    { lg: "LP", c: "#FF0080", match: "Sporting CP vs Estoril", market: "Over 1.5 goals · 1.16", prob: 93, note: "Sporting's last 8 home games all went over 1.5 goals." },
-    { lg: "LA", c: "#DA291C", match: "Real Madrid vs Getafe", market: "Over 1.5 goals · 1.18", prob: 91, note: "Madrid have scored in every home game this season." },
-    { lg: "SC", c: "#006738", match: "Celtic vs Hearts", market: "Home win · 1.30", prob: 88, note: "Celtic have won 9 of their last 10 at home." },
-    { lg: "PL", c: "#3D195B", match: "Arsenal vs Chelsea", market: "Home win · 1.72", prob: 84, note: "Arsenal have won their last 5 home league games." },
-    { lg: "BL", c: "#D20515", match: "Bayern vs Stuttgart", market: "Both teams to score · 1.65", prob: 78, note: "Both sides scored in 6 of Stuttgart's last 7 away games." }
-  ];
-
-  function renderResult() {
-    var ol = document.getElementById("legs");
-    if (!ol) return;
-    ol.innerHTML = "";
-    LEGS.forEach(function (leg) {
-      var li = document.createElement("li");
-      li.className = "leg";
-      li.innerHTML =
-        '<span class="lg-badge" style="--c:' + leg.c + '">' + leg.lg + "</span>" +
-        '<div class="leg-mid"><b>' + leg.match + "</b>" +
-        '<span class="market">' + leg.market + "</span>" +
-        '<span class="comment">' + leg.note + "</span></div>" +
-        '<span class="prob">' + leg.prob + "%</span>";
-      ol.appendChild(li);
+  /* ---------- result (baseline done phase) ---------- */
+  var picksToggle = document.getElementById("picks-toggle");
+  if (picksToggle) {
+    picksToggle.addEventListener("click", function () {
+      var list = document.getElementById("picks-list");
+      var open = list.hidden;
+      list.hidden = !open;
+      picksToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      picksToggle.classList.toggle("open", open);
     });
-    document.getElementById("res-legs").textContent = LEGS.length + " legs";
+  }
+  var restart = document.getElementById("btn-restart");
+  if (restart) {
+    restart.addEventListener("click", function () {
+      step = 0;
+      renderStep();
+      location.hash = "#/book";
+    });
   }
 
   /* ---------- copy buttons ---------- */
-  function bindCopy(id, getText) {
+  function bindCopy(id, getText, label) {
     var btn = document.getElementById(id);
     if (!btn) return;
     btn.addEventListener("click", function (e) {
@@ -171,12 +161,12 @@
       if (navigator.clipboard) navigator.clipboard.writeText(t);
       btn.innerHTML = '<svg class="g"><use href="#g-check"/></svg> Copied';
       setTimeout(function () {
-        btn.innerHTML = '<svg class="g"><use href="#g-copy"/></svg> Copy';
+        btn.innerHTML = '<svg class="g"><use href="#g-copy"/></svg> ' + label;
       }, 1600);
     });
   }
-  bindCopy("btn-copy", function () { return document.getElementById("res-code").textContent; });
-  bindCopy("btn-copy-conv", function () { return document.getElementById("conv-res").textContent; });
+  bindCopy("btn-copy", function () { return document.getElementById("res-code").textContent; }, "Copy booking code");
+  bindCopy("btn-copy-conv", function () { return document.getElementById("conv-res").textContent; }, "Copy");
   document.querySelectorAll("[data-copy]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       if (navigator.clipboard) navigator.clipboard.writeText(btn.getAttribute("data-copy"));
@@ -220,6 +210,18 @@
     a.addEventListener("click", function () { setDrawer(false); });
   });
 
+  /* ---------- referral code disclosure (signup) ---------- */
+  var refToggle = document.getElementById("ref-toggle");
+  if (refToggle) {
+    refToggle.addEventListener("click", function () {
+      var body = document.getElementById("ref-body");
+      var open = body.hidden;
+      body.hidden = !open;
+      refToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      refToggle.classList.toggle("open", open);
+    });
+  }
+
   /* ---------- demo auth flows ---------- */
   function go(hash) { return function (e) { e.preventDefault(); location.hash = hash; }; }
   var sf = document.getElementById("signup-form");
@@ -231,8 +233,6 @@
   var g2 = document.getElementById("btn-google-2");
   if (g2) g2.addEventListener("click", go("#/book"));
 
-  renderResult();
-
   /* password show/hide */
   document.querySelectorAll(".pw-eye").forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -240,8 +240,4 @@
       input.type = input.type === "password" ? "text" : "password";
     });
   });
-
-  /* sportybet open (demo stub) */
-  var sb = document.getElementById("btn-sportybet");
-  if (sb) sb.addEventListener("click", function (e) { e.preventDefault(); });
 })();
