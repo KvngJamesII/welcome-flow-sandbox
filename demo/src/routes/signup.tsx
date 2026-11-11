@@ -1,276 +1,194 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Check, Gift, Loader2, X } from "lucide-react";
-import { toast } from "sonner";
+import { Check, ChevronDown, Eye, EyeOff, Gift, Loader2, X } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { api } from "@/lib/api";
 import { captureReferralCode } from "@/lib/referral";
-import {
- AuthShell,
- Field,
- PasswordInput,
- inputClass,
- useRedirectAfterAuth,
-} from "@/components/auth-shell";
 import { GoogleButton } from "@/components/google-button";
 import { privatePage } from "@/lib/seo";
+import { Frame, PrimaryButton, Wordmark } from "@/components/flow";
 
 export const Route = createFileRoute("/signup")({
- // All optional, so the many `<Link to="/signup" search={{ redirect: undefined }}>`
- // call sites elsewhere do not all have to name every key.
- validateSearch: (
- search: Record<string, unknown>,
- ): { redirect?: string; ref?: string; auth_error?: string } => ({
- redirect:
- typeof search.redirect === "string" && search.redirect.startsWith("/")
- ? search.redirect
- : undefined,
- ref: typeof search.ref === "string" ? search.ref : undefined,
- // Set by the Google callback when the round trip fails.
- auth_error: typeof search.auth_error === "string" ? search.auth_error : undefined,
- }),
- head: () => privatePage("Create account", "/signup"),
- component: SignupPage,
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { redirect?: string; ref?: string; auth_error?: string } => ({
+    redirect: typeof search.redirect === "string" && search.redirect.startsWith("/") ? search.redirect : undefined,
+    ref: typeof search.ref === "string" ? search.ref : undefined,
+    auth_error: typeof search.auth_error === "string" ? search.auth_error : undefined,
+  }),
+  head: () => privatePage("Create account", "/signup"),
+  component: SignupPage,
 });
 
-/**
- * Signup takes a username, an email and a password.
- *
- * The email is not verified here. mail delivery never blocks account creation . 
- * but it is required, because it is the only way a locked-out punter can reset
- * their own password.
- *
- * A referral code is optional and pre-filled from the link the punter arrived on,
- * including one they followed several pages ago; see src/lib/referral.ts.
- */
+const input =
+  "w-full rounded-xl border-2 border-border bg-surface px-4 py-3.5 text-base outline-none transition placeholder:text-muted-foreground/70 focus:border-primary";
+
 function SignupPage() {
- const { signup } = useAuth();
- const { redirect, auth_error: authError } = Route.useSearch();
- const goOn = useRedirectAfterAuth();
+  const { signup } = useAuth();
+  const navigate = useNavigate();
+  const { auth_error: authError } = Route.useSearch();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
+  const [referral, setReferral] = useState("");
+  const [refOpen, setRefOpen] = useState(false);
+  const [fromLink, setFromLink] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formError, setFormError] = useState<string | undefined>(authError);
+  const [busy, setBusy] = useState(false);
+  const [availability, setAvailability] = useState<"idle" | "checking" | "free" | "taken" | "bad">("idle");
 
- const [username, setUsername] = useState("");
- const [email, setEmail] = useState("");
- const [password, setPassword] = useState("");
- const [referralCode, setReferralCode] = useState("");
- const [fromLink, setFromLink] = useState(false);
- const [errors, setErrors] = useState<Record<string, string>>({});
- const [busy, setBusy] = useState(false);
- const [availability, setAvailability] = useState<"idle" | "checking" | "free" | "taken" | "bad">(
- "idle",
- );
+  useEffect(() => {
+    const code = captureReferralCode();
+    if (code) {
+      setReferral(code);
+      setFromLink(true);
+      setRefOpen(true);
+    }
+  }, []);
 
- // Pre-fill from ?ref= or a code stashed when they first landed on the site.
- useEffect(() => {
- const code = captureReferralCode();
- if (code) {
- setReferralCode(code);
- setFromLink(true);
- }
- }, []);
+  useEffect(() => {
+    if (authError) window.history.replaceState({}, "", window.location.pathname);
+  }, [authError]);
 
- // Show a failed Google round trip once, then clean the URL so a refresh does
- // not replay it.
- useEffect(() => {
- if (!authError) return;
- toast.error(authError);
- window.history.replaceState({}, "", window.location.pathname);
- }, [authError]);
+  const clean = username.trim().toLowerCase();
+  useEffect(() => {
+    if (!clean) return setAvailability("idle");
+    if (!/^[a-z0-9_]{3,20}$/.test(clean)) return setAvailability("bad");
+    setAvailability("checking");
+    const t = setTimeout(() => {
+      api.checkUsername(clean).then((r) => setAvailability(r.available ? "free" : "taken")).catch(() => setAvailability("idle"));
+    }, 400);
+    return () => clearTimeout(t);
+  }, [clean]);
 
- const clean = username.trim().toLowerCase();
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const next: Record<string, string> = {};
+    if (!/^[a-z0-9_]{3,20}$/.test(clean)) next.username = "3-20 letters, numbers or underscores";
+    if (availability === "taken") next.username = "That username is taken";
+    if (!email.trim()) next.email = "Enter your email address";
+    else if (!/^\S+@\S+\.\S+$/.test(email.trim())) next.email = "Enter a valid email";
+    if (password.length < 8) next.password = "Use at least 8 characters";
+    setErrors(next);
+    if (Object.keys(next).length) return;
+    setBusy(true);
+    setFormError(undefined);
+    try {
+      await signup({ username: clean, email: email.trim(), password, referralCode: referral.trim().toUpperCase() || undefined });
+      window.sessionStorage.setItem("sp_demo_username", clean);
+      navigate({ to: "/welcome" });
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : "Could not create your account");
+    } finally {
+      setBusy(false);
+    }
+  };
 
- // Check the username as they type so a clash is not a surprise on submit.
- useEffect(() => {
- if (clean.length === 0) {
- setAvailability("idle");
- return;
- }
- if (!/^[a-z0-9_]{3,20}$/.test(clean)) {
- setAvailability("bad");
- return;
- }
- setAvailability("checking");
- const timer = setTimeout(() => {
- api
- .checkUsername(clean)
- .then((result) => setAvailability(result.available ? "free" : "taken"))
- .catch(() => setAvailability("idle"));
- }, 400);
- return () => clearTimeout(timer);
- }, [clean]);
+  return (
+    <Frame
+      footer={
+        <>
+          Already have an account?{" "}
+          <Link to="/login" search={{ redirect: undefined, auth_error: undefined }} className="font-bold text-primary">
+            Log in
+          </Link>
+        </>
+      }
+    >
+      <Wordmark />
 
- const submit = async (event: React.FormEvent) => {
- event.preventDefault();
- const next: Record<string, string> = {};
- if (!/^[a-z0-9_]{3,20}$/.test(clean)) {
- next.username = "3-20 letters, numbers or underscores";
- }
- if (availability === "taken") next.username = "That username is taken";
- if (!email.trim()) {
- next.email = "Enter your email address";
- } else if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
- next.email = "Enter a valid email";
- }
- if (password.length < 8) next.password = "Use at least 8 characters";
- setErrors(next);
- if (Object.keys(next).length) return;
+      <h1 className="mt-8 font-display text-[34px] font-extrabold leading-[1.05] tracking-tight">
+        Start punting
+        <br />
+        <span className="text-primary">smarter.</span>
+      </h1>
 
- setBusy(true);
- try {
- await signup({
- username: clean,
- email: email.trim(),
- password,
- referralCode: referralCode.trim().toUpperCase() || undefined,
- });
- toast.success("Account created");
- goOn(redirect ?? "/generate?starter=1");
- } catch (error) {
- toast.error(error instanceof Error ? error.message : "Could not create your account");
- } finally {
- setBusy(false);
- }
- };
+      <div className="mt-5 flex items-center gap-3.5 rounded-2xl bg-primary p-4 text-primary-foreground animate-fade-up">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/20">
+          <Gift className="h-6 w-6" />
+        </span>
+        <div>
+          <p className="font-display text-base font-extrabold leading-tight">150 welcome credits</p>
+          <p className="text-sm leading-snug text-white/85">Enough for your first booking code.</p>
+        </div>
+      </div>
 
- return (
- <AuthShell
- title={
- <>
- Start punting
- <br />
- <span className="text-primary">smarter.</span>
- </>
- }
- subtitle="Pick a username, add your email, and you're in."
- footer={
- <>
- Already have an account?{" "}
- <Link
- to="/login"
- search={{ redirect: undefined }}
- className="font-bold text-primary hover:underline"
- >
- Log in
- </Link>
- </>
- }
- >
- <GoogleButton
- label="Sign up with Google"
- intent="signup"
- returnTo={redirect ?? "/generate?starter=1"}
- />
+      <div className="mt-6">
+        <GoogleButton label="Sign up with Google" intent="signup" returnTo="/welcome" />
+      </div>
 
- <form onSubmit={submit} className="space-y-4" noValidate>
- <Field
- id="username"
- label="Username"
- error={errors.username}
- hint={
- availability === "checking" ? (
- <span className="inline-flex items-center gap-1">
- <Loader2 className="h-3 w-3 animate-spin" /> checking
- </span>
- ) : availability === "free" ? (
- <span className="inline-flex items-center gap-1 font-bold text-success">
- <Check className="h-3 w-3" /> available
- </span>
- ) : availability === "taken" ? (
- <span className="inline-flex items-center gap-1 font-bold text-destructive">
- <X className="h-3 w-3" /> taken
- </span>
- ) : undefined
- }
- >
- <input
- id="username"
- value={username}
- onChange={(event) => setUsername(event.target.value)}
- placeholder="yourname"
- autoComplete="username"
- autoCapitalize="none"
- className={inputClass}
- />
- </Field>
+      <form onSubmit={submit} className="space-y-4" noValidate>
+        {formError && (
+          <p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm font-semibold text-destructive">
+            {formError}
+          </p>
+        )}
 
- <Field id="email" label="Email" error={errors.email}>
- <input
- id="email"
- type="email"
- value={email}
- onChange={(event) => setEmail(event.target.value)}
- placeholder="you@example.com"
- autoComplete="email"
- className={inputClass}
- />
- </Field>
+        <div>
+          <label htmlFor="username" className="flex items-center justify-between text-sm font-bold">
+            Username
+            <span className="text-xs font-semibold">
+              {availability === "checking" && (
+                <span className="inline-flex items-center gap-1 text-muted-foreground">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" /> checking
+                </span>
+              )}
+              {availability === "free" && (
+                <span className="inline-flex items-center gap-1 text-success">
+                  <Check className="h-3.5 w-3.5" /> available
+                </span>
+              )}
+              {availability === "taken" && (
+                <span className="inline-flex items-center gap-1 text-destructive">
+                  <X className="h-3.5 w-3.5" /> taken
+                </span>
+              )}
+            </span>
+          </label>
+          <input id="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="yourname" autoComplete="username" autoCapitalize="none" className={`mt-2 ${input}`} />
+          {errors.username && <p role="alert" className="mt-1.5 text-sm font-semibold text-destructive">{errors.username}</p>}
+        </div>
 
- <Field id="password" label="Password" error={errors.password}>
- <PasswordInput
- id="password"
- value={password}
- onChange={setPassword}
- placeholder="At least 8 characters"
- autoComplete="new-password"
- />
- </Field>
+        <div>
+          <label htmlFor="email" className="text-sm font-bold">Email</label>
+          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" className={`mt-2 ${input}`} />
+          {errors.email && <p role="alert" className="mt-1.5 text-sm font-semibold text-destructive">{errors.email}</p>}
+        </div>
 
- <Field
- id="referral"
- label="Referral code"
- hint={
- fromLink ? (
- <span className="inline-flex items-center gap-1 font-bold text-success">
- <Gift className="h-3 w-3" /> applied from your invite link
- </span>
- ) : (
- <span className="text-muted-foreground">optional</span>
- )
- }
- >
- <input
- id="referral"
- value={referralCode}
- onChange={(event) => {
- setReferralCode(event.target.value.toUpperCase());
- setFromLink(false);
- }}
- placeholder="Enter a code if you have one"
- autoCapitalize="characters"
- autoComplete="off"
- spellCheck={false}
- className={inputClass}
- />
- </Field>
+        <div>
+          <label htmlFor="password" className="text-sm font-bold">Password</label>
+          <div className="relative mt-2">
+            <input id="password" type={show ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="At least 8 characters" autoComplete="new-password" className={`${input} pr-14`} />
+            <button type="button" onClick={() => setShow((s) => !s)} aria-label={show ? "Hide password" : "Show password"} className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-lg text-muted-foreground">
+              {show ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            </button>
+          </div>
+          {errors.password && <p role="alert" className="mt-1.5 text-sm font-semibold text-destructive">{errors.password}</p>}
+        </div>
 
- <button
- type="submit"
- disabled={busy || availability === "taken"}
- className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-sm font-extrabold text-primary-foreground transition hover:opacity-90 disabled:opacity-60"
- >
- {busy ? (
- <>
- <Loader2 className="h-4 w-4 animate-spin" /> Creating account…
- </>
- ) : (
- <>
- Create account <ArrowRight className="h-4 w-4" />
- </>
- )}
- </button>
+        <div>
+          <button type="button" onClick={() => setRefOpen((o) => !o)} aria-expanded={refOpen} className="flex min-h-[44px] w-full items-center justify-between text-sm font-bold text-muted-foreground">
+            Have a referral code?
+            <ChevronDown className={`h-5 w-5 transition-transform ${refOpen ? "rotate-180" : ""}`} />
+          </button>
+          {refOpen && (
+            <div className="animate-fade-up">
+              <input id="referral" value={referral} onChange={(e) => { setReferral(e.target.value.toUpperCase()); setFromLink(false); }} placeholder="Enter your code" autoCapitalize="characters" autoComplete="off" spellCheck={false} aria-label="Referral code" className={input} />
+              {fromLink && <p className="mt-1.5 inline-flex items-center gap-1 text-sm font-semibold text-success"><Check className="h-4 w-4" /> Applied from your invite link</p>}
+            </div>
+          )}
+        </div>
 
- <p className="text-center text-[11px] leading-relaxed text-muted-foreground">
- 18+ only. SportyPunter is an analysis tool, not a guarantee of winning. By continuing you
- accept our{" "}
- <Link to="/terms" className="font-semibold underline">
- terms
- </Link>{" "}
- and{" "}
- <Link to="/privacy" className="font-semibold underline">
- privacy policy
- </Link>
- .
- </p>
- </form>
- </AuthShell>
- );
+        <PrimaryButton type="submit" busy={busy} disabled={availability === "taken"}>Create account</PrimaryButton>
+
+        <p className="text-center text-xs leading-relaxed text-muted-foreground">
+          18+ only. SportyPunter is an analysis tool, not a guarantee of winning. By continuing you accept our{" "}
+          <a href="#terms" className="font-semibold underline">terms</a> and{" "}
+          <a href="#privacy" className="font-semibold underline">privacy policy</a>.
+        </p>
+      </form>
+    </Frame>
+  );
 }
