@@ -1,46 +1,29 @@
-.qstep-label{flex:1;display:flex;align-items:center;gap:10px;font-weight:800;font-size:15px;letter-spacing:-.01em}
-.done-dot{width:22px;height:22px;flex:none;display:flex;opacity:0;transform:scale(.5);transition:all .25s ease}
-.done-dot .g{width:22px;height:22px}
-.qstep.done .done-dot{opacity:1;transform:scale(1)}
-.qstep-sum{font-size:13px;font-weight:700;color:var(--red);white-space:nowrap}
-.qstep-head .chev{transition:transform .2s ease}
-.qstep.open .qstep-head .chev{transform:rotate(180deg)}
-.qstep-body{display:none;padding:0 18px 18px}
-.qstep.open .qstep-body{display:block}
-.choice-grid{display:grid;gap:10px;margin-bottom:14px}
-.choice{
-  position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;
-  background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:16px;
-  text-align:left;box-shadow:0 1px 2px rgb(0 0 0/.03),inset 0 1px 0 rgb(255 255 255/.65);
-  transition:box-shadow .15s ease,border-color .15s ease,background .15s ease;
+.welcome-card::after{
+  content:"";position:absolute;top:106px;left:calc(50% + 22px);width:40px;height:40px;border-radius:14px;
+  background:oklch(0.62 0.16 150) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.6l4 4L18.5 8' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") center/22px no-repeat;
+  box-shadow:0 3px 8px rgba(0,0,0,.25);
+  animation:sp-pop .7s .45s cubic-bezier(.22,1,.36,1) both;
 }
-.choice .ic{margin-bottom:8px}
-.choice b{font-size:15.5px;letter-spacing:-.01em}
-.choice>span{font-size:13px;color:var(--muted)}
-.choice.sel{
-  border-color:var(--red);background:var(--red-soft);
-  box-shadow:0 0 0 1px var(--red),inset 0 1px 0 rgb(255 255 255/.65);
+.auth[data-view=welcome] .eyebrow{order:1;color:rgba(255,255,255,.8);letter-spacing:.02em;text-transform:none;font-size:15px;font-weight:700;animation:sp-rise .5s .35s ease-out both}
+.auth[data-view=welcome] .gift-lg{order:3;width:88px;height:88px;margin:30px auto 0;animation:sp-rise .5s .7s ease-out both}
+.welcome-card h1{order:2;margin-top:10px;font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.015em;color:#fff;animation:sp-rise .5s .45s ease-out both}
+.welcome-card .lede-sm{
+  order:4;width:100%;margin:14px 0 0;background:#fff;color:var(--muted);
+  border-radius:28px;padding:16px 18px;font-size:14px;text-align:left;
+  box-shadow:0 10px 24px -12px rgba(0,0,0,.35);animation:sp-rise .5s .8s ease-out both;
 }
-.cost{
-  position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:4px;
-  font-style:normal;font-size:12.5px;font-weight:800;color:var(--ink-soft);
-  background:var(--gold-soft);border:1px solid color-mix(in oklch,var(--gold) 40%,transparent);
-  border-radius:999px;padding:3px 10px;
+.welcome-card .lede-sm b{color:var(--ink);font-size:16px}
+.welcome-card .btn-primary{
+  order:5;margin-top:26px;position:relative;
+  background:#fff;color:var(--red);border:1px solid rgb(255 255 255/.8);
+  box-shadow:0 3px 6px rgb(0 0 0/.16),inset 0 1px 0 #fff,inset 0 -2px 4px rgb(0 0 0/.04);
+  animation:sp-rise .5s .95s ease-out both;
 }
-.odds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.odds{
-  background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px 6px;
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-  box-shadow:0 1px 2px rgb(0 0 0/.03),inset 0 1px 0 rgb(255 255 255/.65);
-  transition:box-shadow .15s ease,border-color .15s ease,background .15s ease;
+.welcome-card .btn-primary:hover{background:#fff}
+.welcome-card .btn-primary::after{
+  content:"Design preview. No real account was created.";position:absolute;left:0;right:0;bottom:-30px;
+  font-size:11.5px;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:.02em;white-space:nowrap;
 }
-.odds b{font-size:16px;letter-spacing:-.01em}
-.odds span{font-size:11px;color:var(--muted);font-weight:700}
-.odds.sel{border-color:var(--red);background:var(--red-soft);box-shadow:0 0 0 1px var(--red),inset 0 1px 0 rgb(255 255 255/.65)}
-.odds.is-locked{opacity:.55;cursor:not-allowed}
-#btn-book .ic14{width:16px;height:16px;vertical-align:-3px}
-
-/* ---------- progress ---------- */
-.prog-panel{
-  background:var(--surface);border:1px solid var(--line);border-radius:28px;
-  box-shadow:var(--shadow-panel);padding:22px;
+.sp-pop{animation:sp-pop .7s cubic-bezier(.22,1,.36,1) both}
+.sp-rise{animation:sp-rise .5s ease-out both}
+@keyframes sp-pop{0%{opacity:0;transform:scale(.6) rotate(-6deg)}60%{transform:scale(1.06) rotate(1deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
