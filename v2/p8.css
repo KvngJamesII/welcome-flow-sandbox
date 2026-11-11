@@ -13,16 +13,17 @@
 .prog span{display:none}
 .gift-row{
   display:flex;gap:14px;align-items:center;margin:22px 0;
-  background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:16px;
-  box-shadow:var(--shadow-panel);
+  background:var(--red);border:1px solid color-mix(in oklch,var(--red),black 10%);border-radius:28px;padding:14px 16px;
+  box-shadow:0 3px 6px rgb(0 0 0/.16),inset 0 1px 0 rgb(255 255 255/.25);
 }
-.gift-row p{font-size:14.5px;color:var(--ink-soft)}
-.gift-row b{color:var(--ink)}
+.gift-row .gift-sm{background:#fff;border-radius:14px;padding:6px;width:44px;height:44px;box-shadow:0 2px 5px rgb(0 0 0/.18)}
+.gift-row p{font-size:14.5px;color:rgba(255,255,255,.88)}
+.gift-row b{color:#fff}
 .or{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:13px}
 .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
 .field{display:block;margin-bottom:16px}
-.field>span{display:flex;align-items:baseline;justify-content:space-between;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.field>span i{font-style:normal;text-transform:none;letter-spacing:0;font-weight:600;font-size:11px}
+.field>span{display:flex;align-items:baseline;justify-content:space-between;font-size:13.5px;font-weight:700;color:var(--ink-soft)}
+.field>span i{font-style:normal;font-weight:600;font-size:12px;color:var(--muted)}
 .field input,.field select{
   width:100%;margin-top:8px;border-radius:999px;border:1px solid var(--line);
   background:var(--surface);padding:13px 20px;font:inherit;font-size:15px;color:var(--ink);outline:none;
@@ -30,7 +31,3 @@
   transition:border-color .15s ease,box-shadow .15s ease;
 }
 .field input::placeholder{color:color-mix(in oklch,var(--muted) 70%,transparent)}
-.field input:focus,.field select:focus{
-  border-color:var(--red);
-  box-shadow:0 0 0 3px color-mix(in oklch,var(--red) 12%,transparent),var(--shadow-panel);
-}
