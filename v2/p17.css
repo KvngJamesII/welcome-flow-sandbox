@@ -1,0 +1,20 @@
+/* ---------- plans view ---------- */
+.balance-card{
+  display:flex;gap:14px;align-items:center;background:var(--surface);
+  border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:var(--shadow-panel);margin-bottom:16px;
+}
+.bal-num{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.app-plans{grid-template-columns:1fr 1fr}
+@media(max-width:520px){.app-plans{grid-template-columns:1fr}}
+.sub-title{font-size:18px;font-weight:800;margin:26px 0 12px}
+.pack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pack{
+  background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  box-shadow:0 1px 2px rgb(0 0 0/.03),inset 0 1px 0 rgb(255 255 255/.65);
+  transition:box-shadow .15s ease,border-color .15s ease;
+}
+.pack:hover{border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+.pack b{font-size:20px;font-weight:800}
+.pack span{font-size:13px;color:var(--muted);font-weight:700}
+
