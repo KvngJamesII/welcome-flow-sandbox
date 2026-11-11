@@ -1,0 +1,349 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/**
+ * Plus Jakarta Sans, self-hosted.
+ *
+ * Google Fonts cost two chained round-trips to two other origins before any
+ * text could paint: the CSS from fonts.googleapis.com, which then names a woff2
+ * on fonts.gstatic.com. This is that same variable file (latin subset, weights
+ * 400–800 in one 27 KB request) served from our own domain, so it reuses the
+ * existing connection and starts downloading as soon as the stylesheet parses.
+ *
+ * Declared after the @imports because CSS requires @import to come first.
+ */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/plus-jakarta-sans-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
+  /*
+   * Accent face for short flourishes like the header tagline.
+   *
+   * A system serif stack on purpose: it is visibly a different typeface from the
+   * sans everything else uses, and it costs zero bytes. Loading a second webfont
+   * for two words would undo the round-trip we removed when Google Fonts went —
+   * see the load-performance work. Georgia ships on Windows/macOS/Android,
+   * ui-serif covers iOS, and the rest is a fallback chain.
+   */
+  --font-accent: ui-serif, Georgia, "Times New Roman", "Noto Serif", serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Light, clean - Play Store inspired */
+  --background: oklch(0.935 0.007 75);
+  --foreground: oklch(0.18 0.02 250);
+
+  --surface: oklch(0.96 0.005 75);
+  --surface-2: oklch(0.91 0.007 75);
+
+  --card: oklch(0.96 0.005 75);
+  --card-foreground: oklch(0.18 0.02 250);
+  --popover: oklch(0.97 0.004 75);
+  --popover-foreground: oklch(0.18 0.02 250);
+
+  --primary: oklch(0.54 0.22 20);              /* SportyPunter red */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.93 0.006 75);
+  --secondary-foreground: oklch(0.22 0.02 250);
+
+  --muted: oklch(0.93 0.006 75);
+  --muted-foreground: oklch(0.5 0.015 250);
+  --accent: oklch(0.925 0.008 75);
+  --accent-foreground: oklch(0.22 0.02 250);
+
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(1 0 0);
+
+  --border: oklch(0.88 0.007 75);
+  --input: oklch(0.88 0.007 75);
+  --ring: oklch(0.54 0.22 20);
+
+  --success: oklch(0.62 0.16 150);
+  --warning: oklch(0.75 0.15 75);
+  --info: oklch(0.6 0.15 230);
+
+  --chart-1: oklch(0.54 0.22 20);
+  --chart-2: oklch(0.62 0.16 150);
+  --chart-3: oklch(0.75 0.15 75);
+  --chart-4: oklch(0.6 0.15 230);
+  --chart-5: oklch(0.58 0.22 27);
+
+  --sidebar: oklch(0.96 0.005 75);
+  --sidebar-foreground: oklch(0.18 0.02 250);
+  --sidebar-primary: oklch(0.54 0.22 20);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.935 0.007 75);
+  --sidebar-accent-foreground: oklch(0.22 0.02 250);
+  --sidebar-border: oklch(0.88 0.007 75);
+  --sidebar-ring: oklch(0.55 0.16 255);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, .font-display { font-family: var(--font-display); letter-spacing: -0.015em; font-weight: 700; }
+  /* Opt-in accent face. Positive tracking because a serif italic at small sizes
+     needs the extra air that the tight display tracking takes away. */
+  .font-accent { font-family: var(--font-accent); letter-spacing: 0.01em; }
+}
+
+@layer utilities {
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up { animation: fade-up .35s ease-out both; }
+
+  @keyframes chat-bubble-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-chat-in { animation: chat-bubble-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+  @keyframes chat-user-send {
+    from { opacity: 0; transform: translateY(18px) scale(0.92); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-chat-send { animation: chat-user-send 0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+  @keyframes chat-chip-press {
+    0% { transform: scale(1); }
+    40% { transform: scale(0.96); }
+    100% { transform: scale(1); }
+  }
+  .animate-chip-press { animation: chat-chip-press 0.22s ease-out; }
+
+  @keyframes loading-bar {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(400%); }
+  }
+  .animate-loading-bar { animation: loading-bar 1.4s ease-in-out infinite; }
+
+  /* Drains left-to-right over the toast's lifetime, so the countdown is visible. */
+  @keyframes toast-timer {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+  }
+  .animate-toast-timer {
+    transform-origin: left;
+    animation: toast-timer var(--toast-duration, 3s) linear forwards;
+  }
+
+
+  /* Plan badge beside the SportyPunter wordmark. Moving gold shimmer for PRO. */
+  @keyframes plan-gold-shimmer {
+    0%   { background-position: 120% 50%; }
+    100% { background-position: -120% 50%; }
+  }
+  .plan-badge-pro {
+    /* Deep gold base with a bright band that sweeps through the letters. */
+    background-image: linear-gradient(
+      100deg,
+      #8a6a12 0%,
+      #b8860b 28%,
+      #f5e6a3 46%,
+      #fff6c8 50%,
+      #f5e6a3 54%,
+      #b8860b 72%,
+      #8a6a12 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: plan-gold-shimmer 2.8s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plan-badge-pro {
+      animation: none;
+      background-image: linear-gradient(100deg, #a67c00, #e0c060);
+      background-size: 100% 100%;
+      opacity: 0.9;
+    }
+  }
+
+
+  /* Plan badge beside the SportyPunter wordmark. Moving silver/chrome shimmer for LITE. */
+  @keyframes plan-silver-shimmer {
+    0%   { background-position: 120% 50%; }
+    100% { background-position: -120% 50%; }
+  }
+  .plan-badge-lite {
+    /* Cool silver/chrome base with a bright band that sweeps through the letters. */
+    background-image: linear-gradient(
+      100deg,
+      #6b7280 0%,
+      #9ca3af 28%,
+      #e5e7eb 46%,
+      #f8fafc 50%,
+      #e5e7eb 54%,
+      #9ca3af 72%,
+      #6b7280 100%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: plan-silver-shimmer 2.8s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plan-badge-lite {
+      animation: none;
+      background-image: linear-gradient(100deg, #6b7280, #d1d5db);
+      background-size: 100% 100%;
+      opacity: 0.9;
+    }
+  }
+
+
+
+  /* Subscription tab on Wallet / Upgrade. Polished metallic panels with
+     the same text shimmer classes as the header LITE / PRO badges. */
+  .sub-tab {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 1.25rem 1.15rem 1.2rem;
+    color: #fff;
+    box-shadow:
+      0 18px 40px -18px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+  .sub-tab-lite {
+    background:
+      radial-gradient(120% 90% at 12% -10%, rgba(248, 250, 252, 0.28), transparent 55%),
+      radial-gradient(90% 70% at 88% 110%, rgba(148, 163, 184, 0.22), transparent 50%),
+      linear-gradient(145deg, #3f4654 0%, #5b6576 28%, #8b95a5 52%, #616b7c 78%, #2f3540 100%);
+  }
+  .sub-tab-pro {
+    background:
+      radial-gradient(120% 90% at 12% -10%, rgba(255, 246, 200, 0.28), transparent 55%),
+      radial-gradient(90% 70% at 88% 110%, rgba(184, 134, 11, 0.28), transparent 50%),
+      linear-gradient(145deg, #4a3508 0%, #7a5a12 28%, #b8860b 52%, #8a6a12 78%, #3a2a06 100%);
+  }
+  .sub-tab-glow {
+    pointer-events: none;
+    position: absolute;
+    inset: -20% -10% auto auto;
+    width: 55%;
+    height: 70%;
+    border-radius: 999px;
+    filter: blur(28px);
+    opacity: 0.45;
+  }
+  .sub-tab-lite .sub-tab-glow {
+    background: radial-gradient(circle, rgba(241, 245, 249, 0.55), transparent 70%);
+  }
+  .sub-tab-pro .sub-tab-glow {
+    background: radial-gradient(circle, rgba(255, 230, 150, 0.5), transparent 70%);
+  }
+  .sub-tab-sheen {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 38%,
+      rgba(255, 255, 255, 0.18) 50%,
+      rgba(255, 255, 255, 0.06) 62%,
+      transparent 100%
+    );
+    mix-blend-mode: soft-light;
+    opacity: 0.85;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sub-tab-sheen { opacity: 0.35; }
+  }
+
+  /* Upgrade crown: a slow halo plus a small bob. Deliberately unhurried — this
+     sits in the header on every page, so anything faster becomes irritating. */
+  @keyframes crown-pulse {
+    0%, 100% { opacity: 0; transform: scale(0.75); }
+    50%      { opacity: 1; transform: scale(1.35); }
+  }
+  .animate-crown-pulse { animation: crown-pulse 2.6s ease-in-out infinite; }
+
+  @keyframes crown-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-1.5px) rotate(-6deg); }
+  }
+  .animate-crown-bob { animation: crown-bob 2.6s ease-in-out infinite; }
+
+  /* Respect a reduced-motion preference: keep the colour, drop the movement. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-crown-pulse, .animate-crown-bob { animation: none; }
+    .animate-crown-pulse { opacity: 0.45; }
+  }
+}
