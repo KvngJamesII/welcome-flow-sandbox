@@ -1,12 +1,13 @@
-// Demo scaffold (not production code): minimal root route so the real pages run.
-import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { Toaster } from "sonner";
-
+import { createRootRoute, HeadContent, Outlet } from "@tanstack/react-router";
 export const Route = createRootRoute({
+  head: () => ({ meta: [{ title: "SportyPunter · Welcome flow demo" }] }),
   component: () => (
     <>
+      <HeadContent />
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
       <Outlet />
-      <Toaster richColors position="top-center" />
     </>
   ),
 });

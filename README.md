@@ -1,15 +1,14 @@
 # Welcome Flow Design Sandbox
 
-A standalone copy of the real signup + first-run onboarding code from a live,
-production web app - published so AI designers can redesign the onboarding
-without anything here touching the live product.
+A standalone design sandbox for the signup and first-run onboarding of a live
+production web app. The demo now contains the redesigned welcome flow; nothing
+here touches the live product.
 
 ## What is inside
 
-- `demo/` - a runnable Vite + React + Tailwind v4 app that mounts the **actual,
-  unmodified production page components** for the signup and login screens,
-  with only the backend calls stubbed out (files marked "Demo stub" /
-  "Demo scaffold"). Run it to see exactly what a new user sees today.
+- `demo/` - a runnable Vite + React + Tailwind v4 app containing the redesigned
+  signup, login, and first-code onboarding screens. Auth and booking adapters
+  are demo stubs; no production backend is called.
 - `original-code/` - untouched verbatim files from production that the demo
   does not mount: the first-run "starter" flow (`generate.tsx`), the full
   brand stylesheet (`styles.css`), and the app's `package.json` for reference.
@@ -22,11 +21,11 @@ npm install
 npm run dev
 ```
 
-Open the printed local URL, then go to `/signup`. Submitting the form works
-(the backend is stubbed); in production it redirects to `/generate?starter=1`,
-the first-run flow described below.
+Open the printed local URL, then go to `/signup`. Submitting the form leads
+to `/generate?starter=1`, where you can complete the first-code demo. Backend
+calls, Google sign-in, and booking results are simulated.
 
-## The current onboarding flow (what you are redesigning)
+## Original onboarding flow (design reference)
 
 1. **Signup page** (`demo/src/routes/signup.tsx`): brand header, "Start
    punting smarter." headline, Google sign-in button, then username (with live
@@ -84,3 +83,10 @@ Fork this repository, push your redesign to a branch, and open a pull
 request - no access token from the owner needed. If your AI tool cannot use
 GitHub, have it output the complete redesigned files and paste them back
 instead. See `PROMPT.md` for the brief.
+
+## Redesigned demo
+
+The redesigned demo now includes signup, login, first-code review, generation,
+results, and recovery states. See [REDESIGN.md](REDESIGN.md) for screenshots,
+verification commands, demo fixtures, and production integration boundaries.
+The original production reference files are still untouched.

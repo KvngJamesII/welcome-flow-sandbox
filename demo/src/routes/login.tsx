@@ -1,156 +1,154 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Loader2 } from "lucide-react";
-import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import {
- AuthShell,
- Field,
- PasswordInput,
- inputClass,
- useRedirectAfterAuth,
+  AuthShell,
+  Field,
+  PasswordInput,
+  InlineError,
+  inputClass,
+  useRedirectAfterAuth,
+  safeRedirect,
+  focusFirstError,
 } from "@/components/auth-shell";
 import { GoogleButton } from "@/components/google-button";
 import { privatePage } from "@/lib/seo";
-
 export const Route = createFileRoute("/login")({
- validateSearch: (
- search: Record<string, unknown>,
- ): { redirect?: string; auth_error?: string } => ({
- redirect:
- typeof search.redirect === "string" && search.redirect.startsWith("/")
- ? search.redirect
- : undefined,
- // Set by the Google callback when the round trip fails: the browser is doing a
- // top-level navigation there, so the reason has to travel in the URL.
- auth_error: typeof search.auth_error === "string" ? search.auth_error : undefined,
- }),
- head: () => privatePage("Log in", "/login"),
- component: LoginPage,
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { redirect?: string; auth_error?: string } => ({
+    redirect: safeRedirect(search.redirect),
+    auth_error:
+      typeof search.auth_error === "string" ? search.auth_error : undefined,
+  }),
+  head: () => privatePage("Log in", "/login"),
+  component: LoginPage,
 });
-
 function LoginPage() {
- const { user, loading, login } = useAuth();
- const navigate = useNavigate();
- const { redirect, auth_error: authError } = Route.useSearch();
- const goOn = useRedirectAfterAuth();
- const [identifier, setIdentifier] = useState("");
- const [password, setPassword] = useState("");
- const [errors, setErrors] = useState<Record<string, string>>({});
- const [busy, setBusy] = useState(false);
-
- // Show a failed Google round trip once, then clean the URL so a refresh or a
- // shared link does not replay the error.
- useEffect(() => {
- if (loading || !user) return;
- navigate({ to: "/dashboard", replace: true });
- }, [loading, user, navigate]);
-
- useEffect(() => {
- if (!authError) return;
- toast.error(authError);
- window.history.replaceState({}, "", window.location.pathname);
- }, [authError]);
-
- const submit = async (event: React.FormEvent) => {
- event.preventDefault();
- const next: Record<string, string> = {};
- if (identifier.trim().length < 3) next.identifier = "Enter your username or email";
- if (password.length < 8) next.password = "Password must be at least 8 characters";
- setErrors(next);
- if (Object.keys(next).length) return;
-
- setBusy(true);
- try {
- await login(identifier.trim(), password);
- toast.success("Welcome back");
- goOn(redirect);
- } catch (error) {
- toast.error(error instanceof Error ? error.message : "Login failed");
- } finally {
- setBusy(false);
- }
- };
-
- if (user) return null;
-
- return (
- <AuthShell
- title={
- <>
- Welcome back,
- <br />
- <span className="text-primary">punter.</span>
- </>
- }
- subtitle="Sign in with your username or email to pick up where you left off."
- footer={
- <>
- New here?{" "}
- <Link
- to="/signup"
- search={{ redirect: undefined }}
- className="font-bold text-primary hover:underline"
- >
- Create an account
- </Link>
- </>
- }
- >
- <GoogleButton label="Sign in with Google" returnTo={redirect ?? "/dashboard"} />
-
- <form onSubmit={submit} className="space-y-4" noValidate>
- <Field id="identifier" label="Username or email" error={errors.identifier}>
- <input
- id="identifier"
- value={identifier}
- onChange={(event) => setIdentifier(event.target.value)}
- placeholder="yourname"
- autoComplete="username"
- autoCapitalize="none"
- className={inputClass}
- />
- </Field>
-
- <Field
- id="password"
- label="Password"
- error={errors.password}
- hint={
- <Link
- to="/forgot-password"
- search={{ email: "" }}
- className="font-bold text-primary hover:underline"
- >
- Forgot?
- </Link>
- }
- >
- <PasswordInput
- id="password"
- value={password}
- onChange={setPassword}
- placeholder="Your password"
- autoComplete="current-password"
- />
- </Field>
-
- <button
- type="submit"
- disabled={busy}
- className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-sm font-extrabold text-primary-foreground transition hover:opacity-90 disabled:opacity-60"
- >
- {busy ? (
- <>
- <Loader2 className="h-4 w-4 animate-spin" /> Signing in…
- </>
- ) : (
- <>
- Log in <ArrowRight className="h-4 w-4" />
- </>
- )}
- </button>
- </form>
- </AuthShell>
- );
+  const { login } = useAuth();
+  const { redirect, auth_error: authError } = Route.useSearch();
+  const goOn = useRedirectAfterAuth();
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [serverError, setServerError] = useState(authError || "");
+  const [busy, setBusy] = useState(false);
+  const submitting = useRef(false);
+  useEffect(() => {
+    if (authError) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("auth_error");
+      window.history.replaceState({}, "", url.pathname + url.search);
+    }
+  }, [authError]);
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (submitting.current) return;
+    const next: Record<string, string> = {};
+    if (identifier.trim().length < 3)
+      next.identifier = "Enter your username or email.";
+    if (!password) next.password = "Enter your password.";
+    setErrors(next);
+    setServerError("");
+    if (Object.keys(next).length) {
+      focusFirstError(next);
+      return;
+    }
+    submitting.current = true;
+    setBusy(true);
+    try {
+      await login(identifier.trim(), password);
+      goOn(redirect);
+    } catch (error) {
+      setServerError(
+        error instanceof Error
+          ? error.message
+          : "We couldn’t log you in. Please try again.",
+      );
+    } finally {
+      submitting.current = false;
+      setBusy(false);
+    }
+  };
+  return (
+    <AuthShell
+      title="Welcome back."
+      subtitle="Log in to pick up where you left off."
+      footer={
+        <>
+          New to SportyPunter?{" "}
+          <Link to="/signup" search={{ redirect }}>
+            Create an account
+          </Link>
+        </>
+      }
+    >
+      {serverError && <InlineError>{serverError}</InlineError>}
+      <GoogleButton
+        label="Continue with Google"
+        returnTo={redirect ?? "/dashboard"}
+        disabled={busy}
+      />
+      <form onSubmit={submit} noValidate aria-busy={busy}>
+        <fieldset disabled={busy} className="form-fields">
+          <Field
+            id="identifier"
+            label="Username or email"
+            error={errors.identifier}
+          >
+            <input
+              id="identifier"
+              name="username"
+              value={identifier}
+              onChange={(e) => {
+                setIdentifier(e.target.value);
+                setErrors((previous) => ({ ...previous, identifier: "" }));
+              }}
+              placeholder="Your username or email"
+              autoComplete="username"
+              autoCapitalize="none"
+              aria-invalid={!!errors.identifier}
+              aria-describedby={
+                errors.identifier ? "identifier-hint" : undefined
+              }
+              className={inputClass}
+            />
+          </Field>
+          <Field id="password" label="Password" error={errors.password}>
+            <PasswordInput
+              id="password"
+              value={password}
+              onChange={(value) => {
+                setPassword(value);
+                setErrors((previous) => ({ ...previous, password: "" }));
+              }}
+              placeholder="Your password"
+              autoComplete="current-password"
+              error={errors.password}
+              describedBy={errors.password ? "password-hint" : undefined}
+            />
+          </Field>
+          <Link
+            to="/forgot-password"
+            search={{ email: identifier.includes("@") ? identifier : "" }}
+            className="forgot-link"
+          >
+            Forgot password?
+          </Link>
+          <button type="submit" disabled={busy} className="button primary">
+            {busy ? (
+              <>
+                <Loader2 size={19} className="spin" /> Logging in…
+              </>
+            ) : (
+              <>
+                Log in <ArrowRight size={19} />
+              </>
+            )}
+          </button>
+        </fieldset>
+      </form>
+    </AuthShell>
+  );
 }
