@@ -2,6 +2,13 @@
   border-color:var(--red);
   background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.6l4 4L18.5 8' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") center/14px no-repeat;
 }
+.cost{display:inline-flex;align-items:center;gap:4px;margin-top:6px;
+  font-style:normal;font-size:12px;font-weight:800;color:var(--ink-soft);
+  background:var(--gold-soft);border:1px solid color-mix(in oklch,var(--gold) 40%,transparent);
+  border-radius:999px;padding:2px 9px;
+}
+.choice.is-locked{opacity:.55;cursor:not-allowed}
+.choice.is-locked::after{display:none}
 .detail-toggle{display:flex;align-items:center;gap:4px;margin-top:12px;min-height:44px;font-size:14px;font-weight:700;color:var(--red)}
 .detail-toggle .g{width:16px;height:16px;transition:transform .2s ease}
 .detail-toggle.open .g{transform:rotate(180deg)}
