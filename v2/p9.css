@@ -1,3 +1,7 @@
+.field input:focus,.field select:focus{
+  border-color:var(--red);
+  box-shadow:0 0 0 3px color-mix(in oklch,var(--red) 12%,transparent),var(--shadow-panel);
+}
 .pw{position:relative}
 .pw input{padding-right:52px}
 .pw-eye{
