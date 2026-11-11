@@ -327,3 +327,12 @@
     .animate-crown-pulse { opacity: 0.45; }
   }
 }
+
+@keyframes sp-pop { 0% { opacity: 0; transform: scale(.6) rotate(-6deg); } 60% { transform: scale(1.06) rotate(1deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes sp-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sp-badge { 0%, 55% { opacity: 0; transform: scale(0); } 80% { transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
+.sp-pop { animation: sp-pop .7s cubic-bezier(.22,1,.36,1) both; }
+.sp-rise { animation: sp-rise .5s ease-out both; }
+.sp-badge { animation: sp-badge 1s ease-out both; }
+@keyframes sp-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .sp-pop, .sp-rise, .sp-badge { animation: none; } }
