@@ -34,3 +34,5 @@
   .conv-dir{grid-template-columns:1fr}
   .swap-ic{margin:0 auto;transform:rotate(90deg)}
 }
+
+.drawer[hidden],.drawer-veil[hidden],.conv-out[hidden]{display:none}
