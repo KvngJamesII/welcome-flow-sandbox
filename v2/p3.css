@@ -1,3 +1,25 @@
+/* ---------- buttons: pill controls, lit inner edge (approved refinement) ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  border-radius:999px;font-weight:800;font-size:15px;letter-spacing:-.01em;
+  padding:11px 22px;min-height:48px;
+  transition:transform .1s ease,box-shadow .15s ease,background .15s ease,border-color .15s ease;
+  border:1px solid transparent;
+}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:focus-visible{outline:3px solid color-mix(in oklch,var(--red) 40%,transparent);outline-offset:2px}
+.btn-primary{
+  background:var(--red);color:#fff;
+  border-color:color-mix(in oklch,var(--red),black 10%);
+  box-shadow:0 3px 6px rgb(0 0 0/.16),inset 0 1px 0 rgb(255 255 255/.4),inset 0 0 6px 2px rgb(255 255 255/.2);
+}
+.btn-primary:hover{background:var(--red-deep)}
+.btn-primary:active{transform:translateY(1px);box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 3px rgb(0 0 0/.1)}
+.btn-dark{
+  background:var(--ink);color:#fff;
+  border-color:color-mix(in oklch,var(--ink),black 15%);
+  box-shadow:0 3px 6px rgb(0 0 0/.16),inset 0 1px 0 rgb(255 255 255/.2);
+}
 .btn-dark:active{transform:translateY(1px);box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 3px rgb(0 0 0/.15)}
 .btn-outline,.btn-google{
   background:var(--surface);border-color:var(--line);color:var(--ink);
@@ -20,13 +42,3 @@
 }
 .btn-white:active{transform:translateY(1px);box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 3px rgb(0 0 0/.1)}
 
-/* ---------- brand / nav ---------- */
-.brand{display:inline-flex;align-items:center;gap:10px}
-.brand-mark{width:36px;height:36px;border-radius:10px;box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 0 rgb(255 255 255/.12)}
-.brand-word{font-weight:800;font-size:20px;letter-spacing:-.02em}
-.brand-word b{color:var(--red);font-weight:800}
-.nav{position:sticky;top:0;z-index:40;background:color-mix(in oklch,var(--paper) 85%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
-.nav-in{max-width:1120px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:26px}
-.nav-links{display:none;gap:24px;margin-left:8px;flex:1}
-.nav-links a{font-size:14.5px;font-weight:600;color:var(--ink-soft)}
-.nav-links a:hover{color:var(--red)}
