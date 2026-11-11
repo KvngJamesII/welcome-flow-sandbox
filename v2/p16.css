@@ -27,6 +27,12 @@
 .foot-in .fine{max-width:56ch}
 
 @media(max-width:520px){
+  .nav-in{padding:10px 14px;gap:10px}
+  .nav-in .brand-mark{width:30px;height:30px}
+  .nav-in .brand-word{font-size:17px}
+  .nav-cta{gap:4px}
+  .nav-cta .btn-ghost{padding:8px 8px;font-size:13px;min-height:38px}
+  .nav-cta .btn-primary{min-height:38px;padding:8px 13px;font-size:13px}
   .hero-visual{min-height:300px}
   .mini-card{position:relative;margin-top:14px;left:auto;bottom:auto;display:inline-flex}
   .prod-grid{grid-template-columns:1fr 1fr}
@@ -34,5 +40,4 @@
   .conv-dir{grid-template-columns:1fr}
   .swap-ic{margin:0 auto;transform:rotate(90deg)}
 }
-
 .drawer[hidden],.drawer-veil[hidden],.conv-out[hidden]{display:none}
