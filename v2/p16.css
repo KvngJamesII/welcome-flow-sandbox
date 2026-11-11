@@ -1,0 +1,36 @@
+.drawer-head b{font-size:16px;letter-spacing:-.01em}
+.icon-btn{
+  width:38px;height:38px;border-radius:999px;background:var(--surface);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;color:var(--muted);box-shadow:var(--shadow-panel);
+}
+.icon-btn .g{width:17px;height:17px}
+.drawer-row{
+  display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:18px;
+  font-size:15px;font-weight:700;color:var(--ink-soft);
+}
+.drawer-row:hover{background:var(--surface)}
+.drawer-row .ic18{width:20px;height:20px}
+.drawer-val{margin-left:auto;color:var(--red)}
+.chev-r{margin-left:auto}
+.chev-r .chev{transform:rotate(-90deg)}
+
+/* ---------- recolor the small nav/drawer glyphs (no monochrome line icons) ---------- */
+#n-ticket path{stroke:#C98A12}
+#n-coin circle{stroke:#C98A12}
+#n-coin path{fill:#E8A020;stroke:none}
+#g-swap path{stroke:#2F6BDE}
+#g-back path{stroke:#D93636}
+
+/* ---------- footer ---------- */
+.site-foot{border-top:1px solid var(--line);margin-top:20px}
+.foot-in{max-width:1120px;margin:0 auto;padding:32px 20px;display:grid;gap:12px}
+.foot-in .fine{max-width:56ch}
+
+@media(max-width:520px){
+  .hero-visual{min-height:300px}
+  .mini-card{position:relative;margin-top:14px;left:auto;bottom:auto;display:inline-flex}
+  .prod-grid{grid-template-columns:1fr 1fr}
+  .odds-grid{grid-template-columns:repeat(2,1fr)}
+  .conv-dir{grid-template-columns:1fr}
+  .swap-ic{margin:0 auto;transform:rotate(90deg)}
+}
