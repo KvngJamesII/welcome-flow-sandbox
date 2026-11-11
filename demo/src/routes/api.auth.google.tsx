@@ -25,7 +25,10 @@ function GoogleDemo() {
         window.location.replace(`${signup ? "/signup" : "/login"}?${params}`);
       } else {
         writeDemo("user", { username: "google_demo" });
-        if (signup) writeDemo("booking", null);
+        if (signup) {
+          writeDemo("booking", null);
+          writeDemo("starter_step", "welcome");
+        }
         window.location.replace(next);
       }
     }, 900);

@@ -3,21 +3,44 @@
 The sandbox now runs from signup through a first booking code. The production
 reference files in `original-code/` and the exact logo component are unchanged.
 
-## Design
+## Progressive first run
 
-- Warm brand background, original red and slate colors, exact badge and two-tone
-  wordmark. Plus Jakarta Sans is bundled locally with Fontsource to avoid an
-  external font request or accidental system-font fallback.
-- A single-column phone layout; at wider widths, a quiet introduction sits beside
-  the form. No gradients, promotional filler, popups, or toast messages.
-- Persistent field labels, 16px input text, 52px primary controls, visible focus,
-  reduced-motion support, live field feedback, and inline recovery.
-- The optional referral input opens only when requested or an invite supplies a
-  code. The current value is honored by both email and Google signup.
-- First run keeps Today / Play Safe / 2–5 odds ready to go. The cost is explicit:
-  150 welcome credits pay for the code, not a betting stake. Deferring is allowed.
-- Progress, failed generation, unavailable games, retry, copy confirmation,
-  clipboard denial, restored results, and refresh during generation all work.
+The first-code page is now a short guided conversation. Each interactive screen
+contains one question or action, one primary button, and at most two lines of
+supporting copy at phone width. Loading shows only the current status. Details are closed by default and close again when moving
+to another question. There is no booking summary or payment table to read first.
+
+| Screen | Primary action | Only shown after tapping the details link |
+| --- | --- | --- |
+| Welcome | Let’s start | The 150 welcome credits explanation |
+| Today | Use today’s games | Which games the Today window includes |
+| Play Safe | Use Play Safe | What the name means; no guarantee of a win |
+| Odds target | Create my code | What 2–5 odds means and how welcome credits are used |
+| Preparing the code | Wait for the result | No additional details; just the current demo stage, without percentages |
+| Sample code | Copy sample code | Sample picks, using a real code, and credit bookkeeping |
+| Copied | Go to dashboard | The same optional code details |
+
+The path keeps the original Today / Play Safe / 2–5 starter request. Users
+confirm these defaults one at a time. There are no additional plan or betting
+choices, and no details panel must be opened to finish.
+
+- One meaningful icon per question; the sample code itself is the result visual.
+  Generous whitespace, readable text, and a single primary button guide each step.
+- Warm brand background, unchanged red and slate tokens, exact logo file and
+  two-tone wordmark. Plus Jakarta Sans remains bundled locally.
+- Both the in-flow Back control and browser Back restore earlier questions.
+  Refresh and a return from the dashboard retain the current question. Starting
+  a new demo signup resets the conversation to Welcome.
+- A focused error screen replaces the question when generation fails. Retry
+  retains the starter request. Refresh during generation resumes the demo job;
+  a completed code is restored without another credit deduction.
+- Explanations, odds descriptions, credit arithmetic, and code instructions are
+  behind explicit, keyboard-operable native disclosures. No popups or toasts.
+- Demo results contain no invented odds, probabilities, confidence scores, or
+  performance claims. The code is literally `SAMPLE`, and picks are explicitly
+  labeled as illustrations. Older saved demo results are sanitized on restore.
+- Google sign-in, username/email/password, optional referral, validation, 18+,
+  terms links, and the signup/login visual design remain in place.
 
 ## Run and verify
 
@@ -39,11 +62,25 @@ For an existing Chromium installation:
 CHROMIUM_PATH=/usr/bin/chromium npm test
 ```
 
-17 Playwright tests cover the full flow, error recovery, keyboard access,
-reduced motion, referral and redirect handling, stale availability responses,
-clipboard behavior, and booking restoration. Route layouts are checked at 320,
-375, 390, 430, 768, and 1440 pixels. Axe checks cover signup, validation, auth
-errors, booking error/result, and password-reset confirmation.
+25 Playwright tests cover the full flow and its recovery states. Route layouts
+are checked at 320, 375, 390, 430, 768, and 1440 pixels. Each guided question is
+also checked at 320×568, 390×844, and 430×932 for a single primary action, a
+visible button, hidden details, readable two-line supporting copy, and no
+horizontal overflow. Generation failure and unavailable-game recovery are
+checked at 320×568.
+
+Checks also cover in-flow Back, browser Back, refreshed questions, defer/resume,
+refresh during generation, restored results, stale username responses, Google
+return/referral parameters, keyboard disclosures, focus, reduced motion, and
+clipboard success/failure. Axe checks include each question, auth validation and
+errors, booking errors/results, and password-reset confirmation.
+
+Recreate the committed screenshots while the demo server is running:
+
+```sh
+cd demo
+CHROMIUM_PATH=/usr/bin/chromium node scripts/capture-onboarding.mjs
+```
 
 ## Demo states
 
@@ -58,13 +95,14 @@ sessionStorage.setItem('sp_demo_failure', JSON.stringify('booking'));
 ```
 
 Supported values: `signup`, `login`, `google`, `username`, `booking`, `empty`,
-`reset`. Remove `sp_demo_failure` to recover. Clear `sp_demo_booking` and
-`sp_demo_booking_pending` to start another first-code demonstration. The tests
-use isolated browser contexts, so fixtures never leak between tests.
+`reset`. Remove `sp_demo_failure` to recover. Clear `sp_demo_booking`,
+`sp_demo_booking_pending`, and `sp_demo_starter_step`, then open `/generate`
+to start another first-code demonstration. The tests use isolated browser
+contexts, so fixtures never leak between tests.
 
 Google's `/api/auth/google` URL is handled by a **demo-only** route. It simulates
 a redirect and creates no real Google or production session. Sample code
-`DEMO150` and sample selections are clearly marked and cannot place a bet.
+`SAMPLE` and sample selections are clearly marked and cannot place a bet.
 No passwords are persisted. Booking state and the demo username live in session
 storage; the referral code and existing device identifier use local storage.
 
@@ -99,8 +137,29 @@ integrating; do not ship the demo fixtures or legal notices to production.
 
 ## Visual review
 
-| Signup on a phone | First booking | Booking result |
-| --- | --- | --- |
-| ![Signup](docs/screenshots/signup-mobile.png) | ![First booking](docs/screenshots/onboarding.png) | ![Result](docs/screenshots/booking-result.png) |
+Default phone screens, with every disclosure closed:
 
-![Desktop signup](docs/screenshots/signup-desktop.png)
+| Welcome | Today |
+| --- | --- |
+| ![Welcome](docs/screenshots/onboarding.png) | ![Today question](docs/screenshots/onboarding-today.png) |
+
+| Play Safe | Odds target |
+| --- | --- |
+| ![Approach question](docs/screenshots/onboarding-approach.png) | ![Odds question](docs/screenshots/onboarding-odds.png) |
+
+| Preparing the sample | Sample result |
+| --- | --- |
+| ![Loading](docs/screenshots/booking-loading.png) | ![Sample code](docs/screenshots/booking-result.png) |
+
+| Retry at 320px | Unavailable games at 320px |
+| --- | --- |
+| ![Generation error](docs/screenshots/booking-error.png) | ![Unavailable games](docs/screenshots/booking-unavailable.png) |
+
+Additional reviewed states:
+
+- [Odds and credit details, explicitly opened](docs/screenshots/onboarding-details.png)
+- [Sample code details, explicitly opened](docs/screenshots/booking-details.png)
+- [Copy confirmation and next action](docs/screenshots/booking-copied.png)
+- [Desktop welcome](docs/screenshots/onboarding-desktop.png)
+- [Preserved phone signup](docs/screenshots/signup-mobile.png)
+- [Preserved desktop signup](docs/screenshots/signup-desktop.png)

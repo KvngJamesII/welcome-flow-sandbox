@@ -19,6 +19,7 @@ export function useAuth() {
         throw new Error("That username is taken. Please choose another.");
       writeDemo("user", { username: input.username });
       writeDemo("booking", null);
+      writeDemo("starter_step", "welcome");
     },
     login: async (identifier: string, _password: string) => {
       await delay(850);

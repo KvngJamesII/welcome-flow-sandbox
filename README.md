@@ -86,7 +86,8 @@ instead. See `PROMPT.md` for the brief.
 
 ## Redesigned demo
 
-The redesigned demo now includes signup, login, first-code review, generation,
-results, and recovery states. See [REDESIGN.md](REDESIGN.md) for screenshots,
+The redesigned demo now includes signup, login, a guided first-code conversation,
+generation, results, and recovery states. Each first-run screen has one primary
+action, with explanations and credit details hidden until requested. See [REDESIGN.md](REDESIGN.md) for screenshots,
 verification commands, demo fixtures, and production integration boundaries.
 The original production reference files are still untouched.

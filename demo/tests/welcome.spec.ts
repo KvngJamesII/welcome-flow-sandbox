@@ -12,6 +12,15 @@ async function fillSignup(page: Page) {
   await page.getByLabel("Email address").fill("new@example.com");
   await page.getByLabel("Password", { exact: true }).fill("my-password");
 }
+async function reviewStarter(page: Page) {
+  await page.getByRole("button", { name: "Let’s start", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Use today’s games", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Use Play Safe", exact: true })
+    .click();
+}
 async function fits(page: Page) {
   expect(
     await page.evaluate(
@@ -126,37 +135,44 @@ test("booking loading, failure, retry, result, copy and refresh", async ({
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto("/generate?starter=1");
-  await expect(page.getByText("2–5 total odds")).toBeVisible();
-  await fail(page, "booking");
-  await page.getByRole("button", { name: "Create my first code" }).click();
   await expect(
-    page.getByRole("heading", { name: "Creating your code." }),
+    page.getByRole("heading", { name: "Welcome. You’re in." }),
+  ).toBeVisible();
+  await fail(page, "booking");
+  await reviewStarter(page);
+  await page.getByRole("button", { name: "Create my code" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Making your sample code…" }),
   ).toBeVisible();
   await fits(page);
   await expect(page.getByRole("alert")).toContainText(
-    "150 credits haven’t been used",
+    "Your credits are still here",
   );
   await fits(page);
   await accessible(page);
   await fail(page, "");
   await page.getByRole("button", { name: "Try again", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: "Your first code is ready." }),
+    page.getByRole("heading", { name: "Here’s your sample code." }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Copy booking code" }).click();
-  await expect(page.getByRole("button", { name: "Code copied" })).toBeVisible();
+  await page.getByRole("button", { name: "Copy sample code" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Copied. You’re all set." }),
+  ).toBeVisible();
   expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
-    "DEMO150",
+    "SAMPLE",
   );
-  await page.getByRole("button", { name: "View sample selections" }).click();
-  await expect(page.getByText("Home team A vs Away team A")).toBeVisible();
+  await page.getByText("See code details", { exact: true }).click();
+  await expect(
+    page.getByText("Sample home team vs sample away team"),
+  ).toBeVisible();
   await fits(page);
   await accessible(page);
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: "Your first code is ready." }),
+    page.getByRole("heading", { name: "Here’s your sample code." }),
   ).toBeVisible();
-  await page.getByRole("link", { name: "Go to dashboard" }).click();
+  await page.getByRole("link", { name: "Done for now" }).click();
   await expect(
     page.getByRole("heading", { name: "Your code is saved." }),
   ).toBeVisible();
@@ -167,14 +183,15 @@ test("empty booking and clipboard denial have inline recovery", async ({
 }) => {
   await page.goto("/generate");
   await fail(page, "empty");
-  await page.getByRole("button", { name: "Create my first code" }).click();
+  await reviewStarter(page);
+  await page.getByRole("button", { name: "Create my code" }).click();
   await expect(page.getByRole("alert")).toContainText(
-    "aren’t enough suitable games",
+    "No suitable games right now",
   );
   await fail(page, "");
   await page.getByRole("button", { name: "Try again", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "Copy booking code" }),
+    page.getByRole("button", { name: "Copy sample code" }),
   ).toBeVisible();
   await page.evaluate(() => {
     Object.defineProperty(navigator, "clipboard", {
@@ -182,11 +199,9 @@ test("empty booking and clipboard denial have inline recovery", async ({
       configurable: true,
     });
   });
-  await page.getByRole("button", { name: "Copy booking code" }).click();
+  await page.getByRole("button", { name: "Copy sample code" }).click();
   await expect(
-    page.getByText(
-      "Copy isn’t available in this browser. Select and copy the code above.",
-    ),
+    page.getByText("Select and copy the sample code above."),
   ).toBeVisible();
 });
 
@@ -198,7 +213,7 @@ test("onboarding can be deferred and resumed", async ({ page }) => {
   ).toBeVisible();
   await page.getByRole("link", { name: "Get my first code" }).click();
   await expect(
-    page.getByRole("button", { name: "Create my first code" }),
+    page.getByRole("button", { name: "Let’s start", exact: true }),
   ).toBeVisible();
 });
 
@@ -312,22 +327,177 @@ test("a booking resumes after refresh without spending credits twice", async ({
   page,
 }) => {
   await page.goto("/generate");
-  await page.getByRole("button", { name: "Create my first code" }).click();
+  await reviewStarter(page);
+  await page.getByRole("button", { name: "Create my code" }).click();
   await expect(
-    page.getByRole("heading", { name: "Creating your code." }),
+    page.getByRole("heading", { name: "Making your sample code…" }),
   ).toBeVisible();
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: "Creating your code." }),
+    page.getByRole("heading", { name: "Making your sample code…" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Your first code is ready." }),
+    page.getByRole("heading", { name: "Here’s your sample code." }),
   ).toBeVisible();
   await expect(
-    page.getByText("150 welcome credits used · 0 credits remaining"),
+    page.getByText(/150 welcome credits were used/),
+  ).not.toBeVisible();
+  await page.getByText("See code details", { exact: true }).click();
+  await expect(
+    page.getByText(/150 welcome credits were used and 0 remain/),
   ).toBeVisible();
   await page.reload();
   await expect(
-    page.getByRole("heading", { name: "Your first code is ready." }),
+    page.getByRole("heading", { name: "Here’s your sample code." }),
   ).toBeVisible();
 });
+
+for (const viewport of [
+  { width: 320, height: 568 },
+  { width: 390, height: 844 },
+  { width: 430, height: 932 },
+]) {
+  test(`guided screens have one action and concealed details at ${viewport.width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/generate?starter=1");
+    const labels = [
+      "Let’s start",
+      "Use today’s games",
+      "Use Play Safe",
+      "Create my code",
+    ];
+    for (const label of labels) {
+      await expect(page.locator(".guide .primary")).toHaveCount(1);
+      await expect(page.locator(".guide-detail-body")).not.toBeVisible();
+      await expect(page.getByRole("heading", { level: 1 })).toBeFocused();
+      const primary = page.getByRole("button", { name: label, exact: true });
+      await expect(primary).toBeInViewport();
+      await fits(page);
+      const copy = await page.locator(".guide-copy").evaluate((element) => ({
+        height: element.getBoundingClientRect().height,
+        line: parseFloat(getComputedStyle(element).lineHeight),
+      }));
+      expect(copy.height).toBeLessThanOrEqual(copy.line * 2 + 1);
+      if (viewport.width === 390) await accessible(page);
+      await page.locator(".guide-details summary").click();
+      await expect(page.locator(".guide-detail-body")).toBeVisible();
+      await fits(page);
+      await primary.click();
+    }
+    await expect(page.locator('[data-screen="loading"]')).toBeVisible();
+    await expect(page.locator('.guide-copy[role="status"]')).toBeVisible();
+    await expect(page.locator(".guide .primary")).toHaveCount(0);
+    await fits(page);
+    await expect(
+      page.getByRole("button", { name: "Copy sample code" }),
+    ).toBeVisible();
+    await expect(page.locator(".guide .primary")).toHaveCount(1);
+    await expect(page.locator(".guide-detail-body")).not.toBeVisible();
+    await expect(page.locator("main")).not.toContainText(/3\.24|1\.8|88%/);
+    await page.getByText("See code details", { exact: true }).click();
+    await expect(page.getByText("Sample picks", { exact: true })).toBeVisible();
+    await expect(
+      page.getByText(
+        "Illustrations only, not predictions. No live odds or confidence scores.",
+      ),
+    ).toBeVisible();
+    await fits(page);
+  });
+}
+
+test("Back, browser Back, refresh and defer preserve the current question without opened details", async ({
+  page,
+}) => {
+  await page.goto("/generate?starter=1");
+  await page.getByRole("button", { name: "Let’s start", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Use today’s games", exact: true })
+    .click();
+  await page.locator(".guide-details summary").click();
+  await page.getByRole("button", { name: "Back", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Start with today’s games?" }),
+  ).toBeVisible();
+  await expect(page.locator(".guide-detail-body")).not.toBeVisible();
+  await page.goBack();
+  await expect(
+    page.getByRole("heading", { name: "Welcome. You’re in." }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Let’s start", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Use today’s games", exact: true })
+    .click();
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "Start with Play Safe?" }),
+  ).toBeVisible();
+  expect(new URL(page.url()).searchParams.get("starter")).toBe("1");
+  await page.goto("/dashboard");
+  await page.getByRole("link", { name: "Get my first code" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Start with Play Safe?" }),
+  ).toBeVisible();
+});
+
+test("legacy sample results cannot reintroduce invented metrics", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.evaluate(() =>
+    sessionStorage.setItem(
+      "sp_demo_booking",
+      JSON.stringify({
+        bookingCode: "DEMO150",
+        cost: 150,
+        credits: 0,
+        totalOdds: 3.24,
+        picks: [
+          { match: "Invented match", selection: "88% confidence", odds: 1.8 },
+        ],
+      }),
+    ),
+  );
+  await page.goto("/generate");
+  await expect(page.getByText("SAMPLE", { exact: true })).toBeVisible();
+  await page.getByText("See code details", { exact: true }).click();
+  await expect(page.locator("main")).not.toContainText(
+    /88%|3\.24|1\.8|Invented match|DEMO150/,
+  );
+});
+
+test("details can be opened with the keyboard and reset with the next question", async ({
+  page,
+}) => {
+  await page.goto("/generate");
+  await page.locator(".guide-details summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".guide-detail-body")).toBeVisible();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".guide-detail-body")).not.toBeVisible();
+  await page.getByRole("button", { name: "Let’s start", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Start with today’s games?" }),
+  ).toBeFocused();
+});
+
+for (const failure of ["booking", "empty"]) {
+  test(`${failure} recovery stays focused on a small phone`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 568 });
+    await page.goto("/generate");
+    await reviewStarter(page);
+    await fail(page, failure);
+    await page.getByRole("button", { name: "Create my code" }).click();
+    await expect(page.locator('[data-screen="error"]')).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Try again", exact: true }),
+    ).toBeInViewport();
+    await expect(page.locator(".guide .primary")).toHaveCount(1);
+    await expect(page.locator(".guide-detail-body")).not.toBeVisible();
+    await fits(page);
+    await accessible(page);
+  });
+}

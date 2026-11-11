@@ -17,17 +17,21 @@ function Dashboard() {
         <h1>{booking ? "Your code is saved." : "Make yourself at home."}</h1>
         <p>
           {booking
-            ? "You can return to your booking code and review its selections at any time in this demo."
-            : "Your 150 welcome credits are here when you’re ready. They cover your first Today booking code."}
+            ? "Your sample code is here when you need it."
+            : "Your welcome credits are here when you’re ready."}
         </p>
         <Link to="/generate" className="button primary mt-6">
           {booking ? "View my booking code" : "Get my first code"}
           <ArrowRight size={19} />
         </Link>
-        <p className="demo-note">
-          This is the sandbox dashboard. No live account or betting activity is
-          created.
-        </p>
+        <details className="guide-details">
+          <summary>About this demo</summary>
+          <div className="guide-detail-body">
+            <p>
+              No live account or betting activity is created in this sandbox.
+            </p>
+          </div>
+        </details>
         <Link to="/" className="text-action">
           Back to demo home
         </Link>

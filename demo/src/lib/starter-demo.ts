@@ -12,8 +12,7 @@ export type StarterResult = {
   bookingCode: string;
   credits: number;
   cost: number;
-  totalOdds: number;
-  picks: { match: string; selection: string; odds: number }[];
+  picks: { match: string; selection: string }[];
 };
 export const starterRequest: StarterRequest = {
   puntingType: "safe",
@@ -21,7 +20,20 @@ export const starterRequest: StarterRequest = {
   oddsBand: "2-5",
 };
 export function savedBooking() {
-  return readDemo<StarterResult | null>("booking", null);
+  const saved = readDemo<StarterResult | null>("booking", null);
+  // Older demo sessions may contain fabricated odds. Never restore those fields.
+  if (!saved) return null;
+  return {
+    bookingCode: "SAMPLE",
+    cost: saved.cost,
+    credits: saved.credits,
+    picks: [
+      {
+        match: "Sample home team vs sample away team",
+        selection: "Example selection: home or draw",
+      },
+    ],
+  };
 }
 export function bookingPending() {
   return readDemo("booking_pending", false);
@@ -55,32 +67,21 @@ export function generateStarter(
     reportStage(0);
     await delay(800);
     if (demoFailure("booking"))
-      throw new Error(
-        "We couldn’t finish your code. Your 150 credits haven’t been used. Please try again.",
-      );
+      throw new Error("Your credits are still here. Please try again.");
     if (demoFailure("empty"))
-      throw new Error(
-        "There aren’t enough suitable games for 2–5 odds right now. Your 150 credits are still available. Try again later.",
-      );
+      throw new Error("No suitable games right now. Please try later.");
     reportStage(1);
     await delay(900);
     reportStage(2);
     await delay(850);
     const result: StarterResult = {
-      bookingCode: "DEMO150",
+      bookingCode: "SAMPLE",
       cost: 150,
       credits: 0,
-      totalOdds: 3.24,
       picks: [
         {
-          match: "Home team A vs Away team A",
-          selection: "Over 1.5 goals",
-          odds: 1.8,
-        },
-        {
-          match: "Home team B vs Away team B",
-          selection: "Home or draw",
-          odds: 1.8,
+          match: "Sample home team vs sample away team",
+          selection: "Example selection: home or draw",
         },
       ],
     };
