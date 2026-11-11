@@ -188,12 +188,16 @@
   });
 
   /* ---------- converter (demo) ---------- */
+  var converterNotice = document.createElement("p");
+  converterNotice.className = "demo-banner";
+  converterNotice.textContent = "Demo only. No real codes are converted.";
+  document.querySelector("[data-view=convert]").insertBefore(converterNotice, document.querySelector("[data-view=convert]").children[1]);
   var convBtn = document.getElementById("btn-convert");
   if (convBtn) {
     convBtn.addEventListener("click", function () {
-      var code = (document.getElementById("conv-code").value || "B3K9XQ2M").trim().toUpperCase();
+      var code = (document.getElementById("conv-code").value || "DEMO0001").trim().toUpperCase();
       var out = document.getElementById("conv-out");
-      var res = code.split("").reverse().join("");
+      var res = "DEMO0003";
       document.getElementById("conv-res").textContent = res;
       out.hidden = false;
     });
