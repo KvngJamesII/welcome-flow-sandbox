@@ -57,10 +57,16 @@
     fcount.textContent = (step + 1) + "/3";
   }
 
+  var COST = { today: 150, longshot: 300 };
+  function renderCost() {
+    var note = document.getElementById("build-note");
+    if (note) note.textContent = "Uses " + COST[state.window] + " credits, charged only when your code exists.";
+  }
   document.querySelectorAll("[data-pick]").forEach(function (el) {
     el.addEventListener("click", function () {
       var kind = el.getAttribute("data-pick");
       state[kind] = el.getAttribute("data-value");
+      renderCost();
       document.querySelectorAll('[data-pick="' + kind + '"]').forEach(function (peer) {
         var on = peer === el;
         peer.classList.toggle("sel", on);
@@ -97,6 +103,7 @@
     el.setAttribute("aria-checked", on ? "true" : "false");
   });
   renderStep();
+  renderCost();
 
   document.getElementById("btn-book").addEventListener("click", function () {
     location.hash = "#/progress";
