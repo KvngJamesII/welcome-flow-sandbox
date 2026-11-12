@@ -1,44 +1,50 @@
-/* ---------- buttons: pill controls, lit inner edge (approved refinement) ---------- */
+/* ---------- buttons: redesigned ----------
+   Squared-off sport buttons with a solid press edge (14px radius, 3px bottom
+   lip that compresses on tap). Pills now live only on small chips and badges,
+   so controls no longer all share one fully-rounded shape. */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  border-radius:999px;font-weight:800;font-size:15px;letter-spacing:-.01em;
+  border-radius:14px;font-weight:800;font-size:15px;letter-spacing:-.01em;
   padding:11px 22px;min-height:48px;
-  transition:transform .1s ease,box-shadow .15s ease,background .15s ease,border-color .15s ease;
+  transition:transform .08s ease,box-shadow .12s ease,background .15s ease,border-color .15s ease;
   border:1px solid transparent;
 }
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn:focus-visible{outline:3px solid color-mix(in oklch,var(--red) 40%,transparent);outline-offset:2px}
 .btn-primary{
   background:var(--red);color:#fff;
-  border-color:color-mix(in oklch,var(--red),black 10%);
-  box-shadow:0 3px 6px rgb(0 0 0/.16),inset 0 1px 0 rgb(255 255 255/.4),inset 0 0 6px 2px rgb(255 255 255/.2);
+  border-bottom:3px solid color-mix(in oklch,var(--red),black 24%);
+  box-shadow:0 2px 3px rgb(0 0 0/.10);
 }
-.btn-primary:hover{background:var(--red-deep)}
-.btn-primary:active{transform:translateY(1px);box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 3px rgb(0 0 0/.1)}
+.btn-primary:hover{background:color-mix(in oklch,var(--red),white 5%)}
+.btn-primary:active{transform:translateY(2px);border-bottom-width:1px;box-shadow:0 1px 2px rgb(0 0 0/.10)}
 .btn-dark{
   background:var(--ink);color:#fff;
-  border-color:color-mix(in oklch,var(--ink),black 15%);
-  box-shadow:0 3px 6px rgb(0 0 0/.16),inset 0 1px 0 rgb(255 255 255/.2);
+  border-bottom:3px solid color-mix(in oklch,var(--ink),black 45%);
+  box-shadow:0 2px 3px rgb(0 0 0/.12);
 }
-.btn-dark:active{transform:translateY(1px);box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 3px rgb(0 0 0/.15)}
+.btn-dark:hover{background:color-mix(in oklch,var(--ink),white 6%)}
+.btn-dark:active{transform:translateY(2px);border-bottom-width:1px}
 .btn-outline,.btn-google{
-  background:var(--surface);border-color:var(--line);color:var(--ink);
-  box-shadow:var(--shadow-panel);
+  background:var(--surface);border:1.5px solid var(--line);color:var(--ink);
+  border-bottom:3px solid color-mix(in oklch,var(--ink) 14%,var(--line));
+  box-shadow:0 1px 2px rgb(0 0 0/.05);
 }
-.btn-outline:hover,.btn-google:hover{border-color:color-mix(in oklch,var(--ink) 35%,var(--line))}
-.btn-outline:active,.btn-google:active{transform:translateY(1px);box-shadow:0 1px 2px rgb(0 0 0/.05)}
-.btn-ghost{background:transparent;min-height:40px;padding:8px 10px;white-space:nowrap;color:var(--ink-soft)}
-.btn-ghost:hover{color:var(--ink)}
+.btn-outline:hover,.btn-google:hover{border-color:color-mix(in oklch,var(--ink) 28%,var(--line))}
+.btn-outline:active,.btn-google:active{transform:translateY(2px);border-bottom-width:1px}
+.btn-ghost{background:transparent;min-height:40px;padding:8px 10px;white-space:nowrap;color:var(--ink-soft);border-radius:10px}
+.btn-ghost:hover{color:var(--ink);background:color-mix(in oklch,var(--ink) 5%,transparent)}
 .btn-lg{min-height:56px;padding:14px 28px;font-size:16px}
 .btn-block{width:100%}
 .btn-google .g{width:20px;height:20px}
-.btn-copy{background:rgba(255,255,255,.14);color:#fff;min-height:38px;padding:7px 14px;font-size:13px;font-weight:700;border-color:rgba(255,255,255,.25)}
-.btn-copy:hover{background:rgba(255,255,255,.22)}
+.btn-copy{background:rgba(255,255,255,.16);color:#fff;min-height:38px;padding:7px 14px;font-size:13px;font-weight:700;
+  border:1px solid rgba(255,255,255,.3);border-bottom:3px solid rgba(0,0,0,.25);border-radius:10px}
+.btn-copy:hover{background:rgba(255,255,255,.24)}
+.btn-copy:active{transform:translateY(2px);border-bottom-width:1px}
 .btn-copy .g{width:15px;height:15px}
 .btn-white{
   background:#fff;color:var(--red);
-  border:1px solid rgb(255 255 255/.8);
-  box-shadow:0 3px 6px rgb(0 0 0/.16),inset 0 1px 0 #fff,inset 0 -2px 4px rgb(0 0 0/.04);
+  border-bottom:3px solid rgb(0 0 0/.22);
+  box-shadow:0 2px 4px rgb(0 0 0/.16);
 }
-.btn-white:active{transform:translateY(1px);box-shadow:0 1px 2px rgb(0 0 0/.12),inset 0 1px 3px rgb(0 0 0/.1)}
-
+.btn-white:active{transform:translateY(2px);border-bottom-width:1px}
