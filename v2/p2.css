@@ -1,9 +1,29 @@
-/* ---------- background decor: the loved soft-red paper (baseline: flat paper + sparse translucent shapes, no grid) ---------- */
+/* ---------- background decor: redesigned warm-paper set ----------
+   Still the loved flat paper + sparse translucent shapes, but reworked:
+   mixed corner shapes (not uniform rounds), one outline piece, one gold accent,
+   a plus mark and a dot - playful betting-paper energy without clutter. */
 .bg-decor{position:fixed;inset:0;z-index:-1;overflow:hidden}
-.bg-decor::before{content:"";position:absolute;top:-6rem;right:-6rem;width:18rem;height:18rem;
-  border-radius:3rem;transform:rotate(12deg);background:color-mix(in oklch,var(--red) 10%,transparent)}
-.bg-decor::after{content:"";position:absolute;top:38%;left:-4rem;width:10rem;height:10rem;
-  border-radius:2rem;transform:rotate(-12deg);background:color-mix(in oklch,var(--red) 6%,transparent)}
+.bg-decor::before{content:"";position:absolute;top:-7rem;right:-7rem;width:20rem;height:20rem;
+  border-radius:4rem 4rem 4rem .9rem;transform:rotate(14deg);
+  background:color-mix(in oklch,var(--red) 12%,transparent)}
+.bg-decor::after{content:"";position:absolute;bottom:-8rem;left:-6rem;width:17rem;height:17rem;
+  border-radius:.9rem 4rem 4rem 4rem;transform:rotate(-16deg);
+  background:color-mix(in oklch,var(--red) 7%,transparent)}
+.bg-a{position:absolute;top:15%;left:-3rem;width:12rem;height:12rem;transform:rotate(-10deg);
+  border-radius:2.5rem 2.5rem .9rem 2.5rem;
+  border:2px solid color-mix(in oklch,var(--red) 16%,transparent)}
+.bg-b{position:absolute;top:54%;right:-2.5rem;width:9rem;height:9rem;transform:rotate(18deg);
+  border-radius:2rem .9rem 2rem 2rem;
+  background:color-mix(in oklch,var(--gold) 18%,transparent)}
+.bg-c{position:absolute;top:6%;left:36%;width:5rem;height:5rem;transform:rotate(45deg);
+  border-radius:1.1rem 1.1rem 1.1rem .4rem;
+  border:2px solid color-mix(in oklch,var(--gold) 30%,transparent)}
+.bg-d{position:absolute;top:72%;right:16%;width:26px;height:26px;transform:rotate(8deg)}
+.bg-d::before,.bg-d::after{content:"";position:absolute;background:color-mix(in oklch,var(--red) 24%,transparent);border-radius:3px}
+.bg-d::before{left:10px;top:0;width:6px;height:26px}
+.bg-d::after{top:10px;left:0;width:26px;height:6px}
+.bg-e{position:absolute;top:34%;left:8%;width:12px;height:12px;border-radius:4px;transform:rotate(20deg);
+  background:color-mix(in oklch,var(--gold) 38%,transparent)}
 
 /* ---------- views / router ---------- */
 .view{display:none}
@@ -14,4 +34,3 @@
 .site-foot.active{display:block}
 .nav{display:none}
 .nav.active{display:block}
-
