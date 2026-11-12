@@ -25,3 +25,59 @@
 }
 .drawer[hidden],.drawer-veil[hidden],.conv-out[hidden]{display:none}
 
+
+/* ============ round 3: mixed corners, full-bleed pages, lean app screens ============ */
+/* squared-off controls where pills used to be; pills remain only on small chips */
+.field input,.field select,.ref-body input{border-radius:14px}
+.pw-eye{border-radius:10px;width:34px;height:34px;right:6px}
+.back-btn{border-radius:14px}
+.icon-btn{border-radius:12px}
+.swap-ic{border-radius:12px}
+.bottom-nav a,.bottom-nav button{border-radius:12px}
+.drawer-row{border-radius:12px}
+
+/* cards: softer corners with one squared corner as a signature, no uniform bubbles */
+.choice{border-radius:20px 20px 20px 8px}
+.choice::after{border-radius:9px;border-width:2px}
+.choice.sel::after{border-radius:9px}
+.code-card{border-radius:20px 20px 20px 8px}
+.step-card,.prod-card,.plan-card,.tool-card,.conv-card,.balance-card{border-radius:20px}
+.slip-card{border-radius:24px 24px 24px 10px}
+.mini-card{border-radius:16px 16px 16px 6px}
+.gift-row{border-radius:18px 18px 18px 6px}
+.w-credits{border-radius:20px 20px 20px 6px}
+.pack{border-radius:16px 16px 16px 6px}
+.detail-panel{border-radius:14px 14px 14px 6px}
+.picks-list li{border-radius:14px 14px 14px 6px}
+.demo-banner{border-radius:14px 14px 14px 6px}
+
+/* welcome splash decor: same mix, not twin rounded blobs */
+.auth[data-view=welcome]::before{border-radius:3.5rem 3.5rem .9rem 3.5rem}
+.auth[data-view=welcome]::after{border-radius:.9rem 4rem 4rem 4rem}
+
+/* full page taken: no dead bands, sections tighten up, app views fill the screen */
+.hero{padding:38px 0 22px;gap:32px}
+@media(min-width:960px){.hero{padding:56px 0 32px}}
+.section{padding:32px 0}
+.cta-band{max-width:none;margin:36px -20px 0;border-radius:28px 28px 0 0;padding:52px 24px}
+.app-shell .app-view.active{display:flex;flex-direction:column;min-height:calc(100dvh - 176px)}
+.app-shell.flow-mode .app-view.active{min-height:0}
+.plan-grid.app-plans{flex:1;align-content:start}
+
+/* lean dashboard screens: helper copy off, facts stay on the cards */
+.app-view .lede-sm{display:none}
+
+/* ---------- daily 2 odds ticket (styles were missing; new mixed-corner ticket) ---------- */
+.ticket{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:20px 20px 20px 8px;box-shadow:var(--shadow-panel);overflow:hidden}
+.ticket-top{background:var(--red);color:#fff;padding:18px}
+.ticket-top .code-big{font-size:32px;font-weight:800;letter-spacing:.08em;color:#fff}
+.ticket-meta{margin-top:10px;font-size:13px;color:rgba(255,255,255,.85)}
+.ticket-meta b{color:#fff}
+.ticket-tear{border-top:2px dashed color-mix(in oklch,var(--red) 35%,var(--line));margin:0 12px}
+.legs{list-style:none;padding:8px 12px 12px;display:grid;gap:4px}
+.leg{display:flex;align-items:flex-start;gap:12px;padding:10px 6px;border-bottom:1px solid var(--line-soft)}
+.leg:last-child{border-bottom:0}
+.leg .lg-badge{margin-top:2px}
+.leg .comment{display:block;margin-top:3px;font-size:12.5px;color:var(--muted)}
+.code-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+[data-view=two-odds]>.btn{margin-top:16px}
